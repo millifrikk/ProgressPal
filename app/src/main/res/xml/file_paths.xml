@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- External app-specific directory for exported files -->
+    <external-files-path 
+        name="external_files" 
+        path="." />
+    
+    <!-- Cache directory for temporary files during restore -->
+    <cache-path 
+        name="cache" 
+        path="." />
+</paths>

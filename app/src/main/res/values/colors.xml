@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Basic colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- Primary Colors -->
+    <color name="pal_primary">#4CAF50</color>
+    <color name="pal_primary_dark">#388E3C</color>
+    <color name="pal_primary_light">#81C784</color>
+
+    <!-- Secondary Colors -->
+    <color name="pal_secondary">#2196F3</color>
+    <color name="pal_secondary_dark">#1976D2</color>
+    <color name="pal_secondary_light">#64B5F6</color>
+
+    <!-- Accent Colors -->
+    <color name="pal_accent">#FF9800</color>
+    <color name="pal_success">#8BC34A</color>
+    <color name="pal_warning">#FFC107</color>
+    <color name="pal_error">#F44336</color>
+
+    <!-- Neutral Colors -->
+    <color name="pal_background">#FFFFFF</color>
+    <color name="pal_surface">#F5F5F5</color>
+    <color name="pal_text_primary">#212121</color>
+    <color name="pal_text_secondary">#757575</color>
+    <color name="pal_divider">#E0E0E0</color>
+    <color name="pal_border">#CCCCCC</color>
+    <color name="pal_progress_background">#E8F5E8</color>
+
+    <!-- Dark Mode Colors -->
+    <color name="pal_background_dark">#121212</color>
+    <color name="pal_surface_dark">#1E1E1E</color>
+    <color name="pal_text_primary_dark">#FFFFFF</color>
+    <color name="pal_text_secondary_dark">#B0B0B0</color>
+</resources>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Header with severity indicator -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_card_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Plateau Analysis"
+                android:textColor="@color/pal_text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_severity_badge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:text="Mild"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:background="@drawable/badge_progress"
+                tools:text="Moderate" />
+
+        </LinearLayout>
+
+        <!-- Status Message -->
+        <TextView
+            android:id="@+id/tv_plateau_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:textColor="@color/pal_text_primary"
+            android:textSize="16sp"
+            android:lineSpacingExtra="2dp"
+            tools:text="⚖️ Minor plateau detected (18 days)" />
+
+        <!-- Primary Action -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp"
+            android:padding="12dp"
+            android:background="@drawable/background_info_card">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="💡"
+                android:textSize="20sp"
+                android:layout_marginEnd="12dp" />
+
+            <TextView
+                android:id="@+id/tv_primary_action"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/pal_text_primary"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="Consider adjusting your approach" />
+
+        </LinearLayout>
+
+        <!-- Encouragement -->
+        <TextView
+            android:id="@+id/tv_encouragement"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/pal_text_secondary"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:fontFamily="serif"
+            android:textStyle="italic"
+            tools:text="🎯 Plateaus are normal - stay consistent" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

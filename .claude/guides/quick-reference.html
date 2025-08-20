@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code - Quick Reference</title>
+    <style>
+        :root {
+            --primary: #F97316;
+            --secondary: #3B82F6;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --error: #EF4444;
+            --bg: #0F172A;
+            --card: #1E293B;
+            --text: #F1F5F9;
+            --text-dim: #94A3B8;
+            --border: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 1rem;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section {
+            background-color: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            color: var(--secondary);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .commands {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .cmd {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background-color: var(--bg);
+            border-radius: 0.25rem;
+            align-items: center;
+        }
+
+        .cmd:hover {
+            outline: 1px solid var(--primary);
+        }
+
+        .cmd-name {
+            font-family: 'Courier New', monospace;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .cmd-desc {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        .workflow {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .step {
+            background-color: var(--bg);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+
+        .arrow {
+            color: var(--primary);
+        }
+
+        .categories {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-feature { background: var(--success); }
+        .badge-bugfix { background: var(--warning); }
+        .badge-refactor { background: var(--secondary); }
+        .badge-research { background: #8B5CF6; }
+        .badge-deployment { background: var(--error); }
+
+        .badge-added { background: var(--success); }
+        .badge-changed { background: var(--secondary); }
+        .badge-fixed { background: var(--warning); }
+        .badge-security { background: var(--error); }
+
+        .shortcuts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .shortcut {
+            background-color: var(--bg);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            text-align: center;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        code {
+            background-color: var(--bg);
+            padding: 0.125rem 0.25rem;
+            border-radius: 0.125rem;
+            font-family: 'Courier New', monospace;
+            color: var(--success);
+        }
+
+        .tip {
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--secondary);
+            padding: 0.5rem;
+            border-radius: 0.25rem;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tab {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: var(--primary);
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Compact mode */
+        @media (max-width: 600px) {
+            body {
+                padding: 0.5rem;
+            }
+            
+            .section {
+                padding: 0.75rem;
+            }
+            
+            h1 {
+                font-size: 1.25rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Claude Code Quick Reference</h1>
+
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('session')">Sessions</div>
+        <div class="tab" onclick="showTab('changelog')">Changelog</div>
+        <div class="tab" onclick="showTab('workflow')">Workflows</div>
+    </div>
+
+    <!-- Session Tab -->
+    <div id="session" class="tab-content active">
+        <div class="section">
+            <h2>📊 Session Commands</h2>
+            <div class="commands">
+                <div class="cmd">
+                    <div>
+                        <div class="cmd-name">/session-start "name"</div>
+                        <div class="cmd-desc">Begin new session</div>
+                    </div>
+                </div>
+                <div class="cmd">
+                    <div>
+                        <div class="cmd-name">/session-update "msg"</div>
+                        <div class="cmd-desc">Add progress update</div>
+                    </div>
+                </div>
+                <div class="cmd">
+                    <div>
+                        <div class="cmd-name">/session-current</div>
+                        <div class="cmd-desc">View current status</div>
+                    </div>
+                </div>
+                <div class="cmd">
+                    <div>
+                        <div class="cmd-name">/session-metrics</div>
+                        <div class="cmd-desc">Detailed metrics</div>
+                    </div>
+                </div>
+                <div class="cmd">
+                    <div>
+                        <div class="cmd-name">/session-end</div>
+                        <div class="cmd-desc">End with summary</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Session Options</h2>
+            <div class="categories">
+                <span class="badge badge-feature">--type=feature</span>
+                <span class="badge badge-bugfix">--type=bugfix</span>
+                <span class="badge badge-refactor">--type=refactor</span>
+            </div>
+            <div class="categories" style="margin-top: 0.5rem;">
+                <span class="badge badge-security">--priority=high</span>
+                <span class="badge badge-changed">--blocker</span>
+                <span class="badge badge-added">--milestone</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>💡 Quick Examples</h2>
+            <code>/session-start "auth" --type=feature</code><br>
+            <code>/session-update "Added JWT" --milestone</code><br>
+            <code>/session-update "DB error" --blocker</code>
+        </div>
+    </div>
+
+    <!-- Changelog Tab -->
+    <div id="changelog" class="tab-content">
+        <div class="section">
+            <h2>📝 Changelog Commands</h2>
+            <div class="commands">
+                <div class="cmd">
+                    <div>
+                        <div class="cmd-name">/changelog-add "text"</div>
+                        <div class="cmd-desc">Add changelog entry</div>
+                    </div>
+                </div>
+                <div class="cmd">
+                    <div>
+                        <div class="cmd-name">/changelog-view</div>
+                        <div class="cmd-desc">View changelog</div>
+                    </div>
+                </div>
+                <div class="cmd">
+                    <div>
+                        <div class="cmd-name">/changelog-release X.Y.Z</div>
+                        <div class="cmd-desc">Create release</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📋 Categories</h2>
+            <div class="categories">
+                <span class="badge badge-added">Added</span>
+                <span class="badge badge-changed">Changed</span>
+                <span class="badge badge-fixed">Fixed</span>
+                <span class="badge badge-security">Security</span>
+            </div>
+        </div>
+
+        <div class="tip">
+            💡 Changelog auto-updates when you end a session!
+        </div>
+    </div>
+
+    <!-- Workflow Tab -->
+    <div id="workflow" class="tab-content">
+        <div class="section">
+            <h2>🔄 Basic Workflow</h2>
+            <div class="workflow">
+                <div class="step">
+                    <strong>Start</strong><br>
+                    <code>/session-start</code>
+                </div>
+                <span class="arrow">→</span>
+                <div class="step">
+                    <strong>Update</strong><br>
+                    <code>/session-update</code>
+                </div>
+                <span class="arrow">→</span>
+                <div class="step">
+                    <strong>End</strong><br>
+                    <code>/session-end</code>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>⚡ Shortcuts</h2>
+            <div class="shortcuts">
+                <div class="shortcut">View Status<br><code>/session-current</code></div>
+                <div class="shortcut">View Metrics<br><code>/session-metrics</code></div>
+                <div class="shortcut">List All<br><code>/session-list</code></div>
+                <div class="shortcut">Analytics<br><code>/session-analytics</code></div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎯 Update Types</h2>
+            <div class="shortcuts">
+                <div class="shortcut">Progress<br><code>--progress</code></div>
+                <div class="shortcut">Blocker<br><code>--blocker</code></div>
+                <div class="shortcut">Decision<br><code>--decision</code></div>
+                <div class="shortcut">Milestone<br><code>--milestone</code></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

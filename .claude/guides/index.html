@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code Development Guide</title>
+    <style>
+        :root {
+            --primary-color: #F97316;
+            --secondary-color: #3B82F6;
+            --bg-color: #0F172A;
+            --card-bg: #1E293B;
+            --text-primary: #F1F5F9;
+            --text-secondary: #94A3B8;
+            --border-color: #334155;
+            --success-color: #10B981;
+            --warning-color: #F59E0B;
+            --error-color: #EF4444;
+            --code-bg: #0F172A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 2rem 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: var(--card-bg);
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 120px;
+            z-index: 99;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s;
+        }
+
+        nav a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Sections */
+        section {
+            margin-bottom: 4rem;
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin: 1.5rem 0 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Command Cards */
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .command-card {
+            background-color: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .command-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            border-color: var(--primary-color);
+        }
+
+        .command-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .command-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Code Blocks */
+        pre {
+            background-color: var(--code-bg);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid var(--border-color);
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            color: var(--success-color);
+        }
+
+        /* Quick Start */
+        .quick-start {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quick-start h3 {
+            color: white;
+        }
+
+        /* Workflow */
+        .workflow {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .workflow-step {
+            background-color: var(--bg-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border-color);
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .workflow-arrow {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        /* Examples */
+        .example {
+            background-color: var(--bg-color);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* Tips */
+        .tip {
+            background-color: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--secondary-color);
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .tip::before {
+            content: "💡 ";
+            font-size: 1.2rem;
+        }
+
+        /* Categories */
+        .category-list {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .category-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .badge-added { background-color: var(--success-color); color: white; }
+        .badge-changed { background-color: var(--secondary-color); color: white; }
+        .badge-fixed { background-color: var(--warning-color); color: white; }
+        .badge-security { background-color: var(--error-color); color: white; }
+        .badge-deprecated { background-color: #6B7280; color: white; }
+        .badge-removed { background-color: #991B1B; color: white; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            section {
+                padding: 1rem;
+            }
+            
+            header h1 {
+                font-size: 1.75rem;
+            }
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Copy Button */
+        .copy-btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            float: right;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* Icon Support */
+        .icon {
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🚀 Claude Code Development Guide</h1>
+        <p>Professional Session Management & Changelog System</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#quick-start">Quick Start</a></li>
+            <li><a href="#session-management">Session Management</a></li>
+            <li><a href="#changelog-system">Changelog System</a></li>
+            <li><a href="#workflows">Workflows</a></li>
+            <li><a href="#best-practices">Best Practices</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <!-- Quick Start Section -->
+        <section id="quick-start" class="quick-start">
+            <h2>⚡ Quick Start</h2>
+            <div class="workflow">
+                <div class="workflow-step">
+                    <h4>1. Start Session</h4>
+                    <code>/session-start "feature-name"</code>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-step">
+                    <h4>2. Work & Update</h4>
+                    <code>/session-update "progress"</code>
+                </div>
+                <span class="workflow-arrow">→</span>
+                <div class="workflow-step">
+                    <h4>3. End & Document</h4>
+                    <code>/session-end</code>
+                </div>
+            </div>
+            <div class="tip">
+                When you end a session, changes are automatically added to the changelog!
+            </div>
+        </section>
+
+        <!-- Session Management Section -->
+        <section id="session-management">
+            <h2><span class="icon">📊</span>Session Management</h2>
+            
+            <h3>Core Commands</h3>
+            <div class="command-grid">
+                <div class="command-card">
+                    <h4>/session-start</h4>
+                    <p>Begin a new development session with tracking</p>
+                    <pre><code>/session-start "auth-feature"
+/session-start "fix-bug" --type=bugfix --priority=high</code></pre>
+                </div>
+
+                <div class="command-card">
+                    <h4>/session-update</h4>
+                    <p>Add progress updates with metrics</p>
+                    <pre><code>/session-update "Added JWT tokens"
+/session-update "Database issue" --blocker</code></pre>
+                </div>
+
+                <div class="command-card">
+                    <h4>/session-current</h4>
+                    <p>View current session status</p>
+                    <pre><code>/session-current
+/session-current --verbose</code></pre>
+                </div>
+
+                <div class="command-card">
+                    <h4>/session-end</h4>
+                    <p>End session with comprehensive summary</p>
+                    <pre><code>/session-end
+/session-end "Phase complete"</code></pre>
+                </div>
+
+                <div class="command-card">
+                    <h4>/session-list</h4>
+                    <p>View all sessions with analytics</p>
+                    <pre><code>/session-list
+/session-list --type=feature</code></pre>
+                </div>
+
+                <div class="command-card">
+                    <h4>/session-analytics</h4>
+                    <p>View productivity analytics</p>
+                    <pre><code>/session-analytics
+/session-analytics --last-30-days</code></pre>
+                </div>
+            </div>
+
+            <h3>Session Types</h3>
+            <div class="category-list">
+                <span class="category-badge badge-added">Feature</span>
+                <span class="category-badge badge-changed">Refactor</span>
+                <span class="category-badge badge-fixed">Bugfix</span>
+                <span class="category-badge badge-security">Research</span>
+                <span class="category-badge badge-deprecated">Deployment</span>
+            </div>
+
+            <h3>Update Types</h3>
+            <div class="example">
+                <h4>Progress Update (Default)</h4>
+                <code>/session-update "Implemented user authentication"</code>
+            </div>
+            <div class="example">
+                <h4>Blocker Update</h4>
+                <code>/session-update "Cannot connect to database" --blocker</code>
+            </div>
+            <div class="example">
+                <h4>Decision Update</h4>
+                <code>/session-update "Chose PostgreSQL over MySQL" --decision</code>
+            </div>
+            <div class="example">
+                <h4>Milestone Update</h4>
+                <code>/session-update "Authentication complete" --milestone</code>
+            </div>
+        </section>
+
+        <!-- Changelog System Section -->
+        <section id="changelog-system">
+            <h2><span class="icon">📝</span>Changelog System</h2>
+            
+            <h3>Changelog Commands</h3>
+            <div class="command-grid">
+                <div class="command-card">
+                    <h4>/changelog-add</h4>
+                    <p>Add entry to changelog</p>
+                    <pre><code>/changelog-add "Added PDF export"
+/changelog-add "Fixed bug" --category=fixed</code></pre>
+                </div>
+
+                <div class="command-card">
+                    <h4>/changelog-view</h4>
+                    <p>View changelog with filters</p>
+                    <pre><code>/changelog-view
+/changelog-view --unreleased</code></pre>
+                </div>
+
+                <div class="command-card">
+                    <h4>/changelog-release</h4>
+                    <p>Create version release</p>
+                    <pre><code>/changelog-release 0.4.0
+/changelog-release --auto</code></pre>
+                </div>
+            </div>
+
+            <h3>Change Categories</h3>
+            <div class="category-list">
+                <span class="category-badge badge-added">Added</span>
+                <span class="category-badge badge-changed">Changed</span>
+                <span class="category-badge badge-fixed">Fixed</span>
+                <span class="category-badge badge-security">Security</span>
+                <span class="category-badge badge-deprecated">Deprecated</span>
+                <span class="category-badge badge-removed">Removed</span>
+            </div>
+
+            <h3>Automatic Integration</h3>
+            <div class="tip">
+                When you complete objectives and end a session, the changelog is automatically updated with your achievements!
+            </div>
+        </section>
+
+        <!-- Workflows Section -->
+        <section id="workflows">
+            <h2><span class="icon">🔄</span>Example Workflows</h2>
+            
+            <h3>Feature Development</h3>
+            <div class="example">
+                <pre><code># Start feature session
+/session-start "user-dashboard" --type=feature --priority=high
+
+# Regular updates
+/session-update "Created dashboard layout"
+/session-update "Added data visualization"
+/session-update "All tests passing" --milestone
+
+# End session (auto-updates changelog)
+/session-end
+
+# View what was added
+/changelog-view --unreleased</code></pre>
+            </div>
+
+            <h3>Bug Fixing</h3>
+            <div class="example">
+                <pre><code># Start bugfix session
+/session-start "fix-memory-leak" --type=bugfix --priority=critical
+
+# Track investigation
+/session-update "Reproduced issue"
+/session-update "Found leak in WebSocket" --decision
+/session-update "Fix verified" --milestone
+
+# End and document
+/session-end</code></pre>
+            </div>
+
+            <h3>Creating a Release</h3>
+            <div class="example">
+                <pre><code># Review unreleased changes
+/changelog-view --unreleased
+
+# Check session analytics
+/session-analytics --summary
+
+# Create release
+/changelog-release 0.4.0
+
+# Git commands (suggested)
+git tag -a v0.4.0 -m "Release 0.4.0"
+git push origin v0.4.0</code></pre>
+            </div>
+        </section>
+
+        <!-- Best Practices Section -->
+        <section id="best-practices">
+            <h2><span class="icon">✨</span>Best Practices</h2>
+            
+            <h3>Session Management</h3>
+            <ul>
+                <li>✅ Start sessions with clear objectives</li>
+                <li>✅ Update every 30-60 minutes</li>
+                <li>✅ Use specific update types (blocker, decision, milestone)</li>
+                <li>✅ Always end sessions properly for analytics</li>
+                <li>✅ Review session analytics weekly</li>
+            </ul>
+
+            <h3>Changelog Writing</h3>
+            <ul>
+                <li>✅ Write from user perspective</li>
+                <li>✅ Be specific but concise</li>
+                <li>✅ Group related changes</li>
+                <li>✅ Include issue/PR references</li>
+                <li>✅ Review before releases</li>
+            </ul>
+
+            <h3>Good Changelog Examples</h3>
+            <div class="example">
+                <h4>✅ Good</h4>
+                <ul>
+                    <li>"Added PDF export with custom formatting options"</li>
+                    <li>"Fixed dashboard crash when viewing special characters"</li>
+                    <li>"Improved API response time by 50%"</li>
+                </ul>
+            </div>
+            <div class="example">
+                <h4>❌ Bad</h4>
+                <ul>
+                    <li>"Fixed bug"</li>
+                    <li>"Updated code"</li>
+                    <li>"New feature"</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Tips Section -->
+        <section>
+            <h2><span class="icon">💡</span>Pro Tips</h2>
+            <div class="tip">
+                <strong>Session Templates:</strong> Use templates for consistency - they're in <code>.claude/templates/</code>
+            </div>
+            <div class="tip">
+                <strong>Metrics Tracking:</strong> Check <code>/session-metrics</code> during long sessions to monitor progress
+            </div>
+            <div class="tip">
+                <strong>Auto-Detection:</strong> Use <code>/changelog-add --auto-detect</code> to analyze git changes
+            </div>
+            <div class="tip">
+                <strong>Session Linking:</strong> Continue work with <code>--continues=previous-session-id</code>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Add copy functionality to code blocks
+        document.querySelectorAll('pre code').forEach(block => {
+            const button = document.createElement('button');
+            button.className = 'copy-btn';
+            button.textContent = 'Copy';
+            button.onclick = () => {
+                navigator.clipboard.writeText(block.textContent);
+                button.textContent = 'Copied!';
+                setTimeout(() => button.textContent = 'Copy', 2000);
+            };
+            block.parentElement.insertBefore(button, block);
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Highlight current section in nav
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.style.backgroundColor = '';
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.style.backgroundColor = 'rgba(249, 115, 22, 0.2)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

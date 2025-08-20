@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name">ProgressPal</string>
+    <string name="tagline">Your companion in transformation</string>
+    
+    <!-- Onboarding -->
+    <string name="welcome_title">Welcome to ProgressPal!</string>
+    <string name="welcome_subtitle">Let\'s start your transformation journey together</string>
+    <string name="get_started">Get Started</string>
+    <string name="skip">Skip for now</string>
+    <string name="next">Next</string>
+    <string name="finish">Finish Setup</string>
+    
+    <!-- Dashboard -->
+    <string name="current_weight">Current Weight</string>
+    <string name="goal_weight">Goal Weight</string>
+    <string name="progress">Progress</string>
+    <string name="add_entry">Add Today\'s Entry</string>
+    <string name="quick_stats">Quick Stats</string>
+    
+    <!-- Entry -->
+    <string name="weight_hint">Enter weight (kg)</string>
+    <string name="add_measurements">Add Measurements (optional)</string>
+    <string name="notes_hint">Notes (optional)</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    
+    <!-- Measurements -->
+    <string name="waist">Waist</string>
+    <string name="chest">Chest</string>
+    <string name="hips">Hips</string>
+    <string name="neck">Neck</string>
+    <string name="biceps">Biceps</string>
+    <string name="thigh">Thigh</string>
+    
+    <!-- Messages -->
+    <string name="entry_saved">Entry saved successfully!</string>
+    <string name="entry_deleted">Entry deleted</string>
+    <string name="goal_reached">Congratulations! Goal reached! 🎉</string>
+    <string name="milestone_achieved">Milestone achieved!</string>
+    
+    <!-- Errors -->
+    <string name="error_invalid_weight">Please enter a valid weight</string>
+    <string name="error_future_date">Cannot add entry for future date</string>
+    <string name="error_save_failed">Failed to save entry. Please try again.</string>
+</resources>

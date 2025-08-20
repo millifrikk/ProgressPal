@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_view_comparison"
+        android:title="View Comparison"
+        android:icon="@drawable/ic_dashboard"
+        app:showAsAction="ifRoom"
+        android:contentDescription="View before/after comparison" />
+
+    <item
+        android:id="@+id/action_filter"
+        android:title="Filter Photos"
+        android:icon="@drawable/ic_gallery"
+        app:showAsAction="never"
+        android:contentDescription="Filter photos by type or date" />
+
+</menu>
