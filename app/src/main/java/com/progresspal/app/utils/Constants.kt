@@ -4,7 +4,7 @@ object Constants {
     
     // Database
     const val DATABASE_NAME = "progresspal_database"
-    const val DATABASE_VERSION = 1
+    const val DATABASE_VERSION = 2
     
     // Shared Preferences
     const val PREFS_NAME = "progresspal_prefs"
