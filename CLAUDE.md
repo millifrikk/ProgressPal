@@ -40,6 +40,133 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ./gradlew check
 ```
 
+## Session Management & Documentation
+
+### Session Tracking Workflow
+**IMPORTANT**: Always maintain session documents and changelog entries as part of development workflow.
+
+#### Required Session Management Actions:
+1. **Session Start**: Verify `.claude/sessions/.current-session` exists and contains active session metadata
+2. **During Development**: Update session progress and maintain task tracking
+3. **Session End**: Create comprehensive session summary and update changelog
+4. **Archive Management**: Move completed sessions to archive with full documentation
+
+#### Session Document Structure
+```
+.claude/
+├── sessions/
+│   ├── .current-session          # Active session metadata
+│   ├── [session-id].md          # Session working document  
+│   └── archive/                  # Completed sessions
+│       └── [session-id]-COMPLETE.md
+```
+
+#### Session Documentation Requirements
+When using `/session-end` command or ending any development session:
+
+1. **Create Session Archive**: Write comprehensive summary to `.claude/sessions/archive/[session-id]-COMPLETE.md`
+2. **Update Current Session**: Clear `.current-session` and mark as complete
+3. **Maintain Session History**: Preserve all technical decisions, problems solved, and lessons learned
+
+### Changelog Management
+
+#### Required Changelog Updates
+**MUST** update `CHANGELOG.md` after completing any significant work:
+
+```markdown
+## [Unreleased]
+
+### Added
+- **Feature Description** - User-focused benefit explanation (Session: YYYY-MM-DD-HHMM)
+  - Technical implementation details
+  - User experience improvements
+  - Architecture or design pattern changes
+
+### Fixed  
+- **Problem Description** - Issue resolution with user impact (Session: YYYY-MM-DD-HHMM)
+  - Root cause explanation
+  - Solution implementation
+  - Prevention measures added
+
+### Changed
+- **Enhancement Description** - Improvement explanation (Session: YYYY-MM-DD-HHMM)
+  - Migration details (e.g., Material2 → Material3)
+  - Performance or usability improvements
+  - Breaking changes (if any)
+```
+
+#### Changelog Categories
+- **Added**: New features, components, or capabilities
+- **Changed**: Improvements, migrations, or enhancements to existing functionality  
+- **Fixed**: Bug fixes, error resolutions, or issue corrections
+- **Deprecated**: Features marked for future removal
+- **Removed**: Deleted functionality or cleaned up code
+- **Security**: Security fixes, authentication updates, or access control changes
+
+#### Session Reference Standard
+Always include session reference: `(Session: YYYY-MM-DD-HHMM)` for traceability.
+
+### Development Workflow Integration
+
+#### Before Starting Work:
+1. Check `.claude/sessions/.current-session` for active session context
+2. Understand current objectives and progress state
+3. Plan work within session scope
+
+#### During Development:
+1. Use TodoWrite tool for task tracking and progress visibility
+2. Document technical decisions and architectural choices
+3. Update session progress for complex implementations
+
+#### After Completing Work:
+1. **MANDATORY**: Update `CHANGELOG.md` with user-facing changes
+2. **MANDATORY**: Create session archive with comprehensive summary
+3. Commit both code changes and documentation updates together
+4. Ensure session status is properly archived
+
+### Session Quality Standards
+
+#### Comprehensive Session Documentation Must Include:
+- **Executive Summary**: Objectives met, key metrics, efficiency analysis
+- **Technical Summary**: Architecture changes, code metrics, git activity
+- **Task Tracking**: Completed, in-progress, and deferred items
+- **Decisions & Learnings**: Key decisions made, problems solved, lessons learned
+- **Next Session Planning**: Immediate next steps, technical debt, prerequisites
+
+#### Professional Documentation Practices:
+- **User-Focused Changelog Entries**: Explain user benefits, not just implementation
+- **Technical Context**: Provide enough detail for future maintenance
+- **Traceability**: Link sessions to commits, issues, and architectural decisions
+- **Lessons Learned**: Document what worked well and what could improve
+
+### Example Session Workflow
+
+```bash
+# 1. Check active session
+cat .claude/sessions/.current-session
+
+# 2. Work on objectives with task tracking
+# Use TodoWrite tool throughout development
+
+# 3. End session with proper documentation
+/session-end "Phase completed successfully"
+
+# 4. Update changelog
+/changelog-add "Add comprehensive dark mode support"
+
+# 5. Commit everything together
+git add .claude/sessions/archive/ CHANGELOG.md [modified-files]
+git commit -m "Complete [session-objective] with documentation"
+```
+
+### Session Management Best Practices
+
+- **Regular Updates**: Update session progress for multi-hour sessions
+- **Decision Documentation**: Record why architectural choices were made
+- **Problem Documentation**: Document issues encountered and solutions found
+- **Knowledge Transfer**: Write documentation that future developers can understand
+- **Quality Gates**: Don't end sessions without proper changelog and archive documentation
+
 ## Architecture Overview
 
 ### High-Level Architecture
