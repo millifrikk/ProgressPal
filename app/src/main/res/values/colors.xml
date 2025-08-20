@@ -1,35 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- LIGHT MODE COLORS -->
+    
     <!-- Basic colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     
-    <!-- Primary Colors -->
-    <color name="pal_primary">#4CAF50</color>
-    <color name="pal_primary_dark">#388E3C</color>
-    <color name="pal_primary_light">#81C784</color>
+    <!-- Primary Colors (Light Mode) -->
+    <color name="pal_primary">#4CAF50</color>          <!-- Material Green 500 -->
+    <color name="pal_primary_dark">#388E3C</color>     <!-- Material Green 700 -->
+    <color name="pal_primary_light">#81C784</color>    <!-- Material Green 300 -->
 
-    <!-- Secondary Colors -->
-    <color name="pal_secondary">#2196F3</color>
-    <color name="pal_secondary_dark">#1976D2</color>
-    <color name="pal_secondary_light">#64B5F6</color>
+    <!-- Secondary Colors (Light Mode) -->
+    <color name="pal_secondary">#2196F3</color>        <!-- Material Blue 500 -->
+    <color name="pal_secondary_dark">#1976D2</color>   <!-- Material Blue 700 -->
+    <color name="pal_secondary_light">#64B5F6</color>  <!-- Material Blue 300 -->
 
-    <!-- Accent Colors -->
-    <color name="pal_accent">#FF9800</color>
-    <color name="pal_success">#8BC34A</color>
-    <color name="pal_warning">#FFC107</color>
-    <color name="pal_error">#F44336</color>
+    <!-- Accent & Status Colors -->
+    <color name="pal_accent">#FF9800</color>           <!-- Orange accent -->
+    <color name="pal_success">#8BC34A</color>          <!-- Light green success -->
+    <color name="pal_warning">#FFC107</color>          <!-- Amber warning -->
+    <color name="pal_error">#F44336</color>            <!-- Red error -->
 
-    <!-- Neutral Colors -->
-    <color name="pal_background">#FFFFFF</color>
-    <color name="pal_surface">#F5F5F5</color>
-    <color name="pal_text_primary">#212121</color>
-    <color name="pal_text_secondary">#757575</color>
-    <color name="pal_divider">#E0E0E0</color>
-    <color name="pal_border">#CCCCCC</color>
-    <color name="pal_progress_background">#E8F5E8</color>
+    <!-- Surface & Background (Light Mode) -->
+    <color name="pal_background">#FFFFFF</color>       <!-- Pure white -->
+    <color name="pal_surface">#F5F5F5</color>          <!-- Light gray surface -->
+    
+    <!-- Text Colors (Light Mode) -->
+    <color name="pal_text_primary">#212121</color>     <!-- Dark gray text -->
+    <color name="pal_text_secondary">#757575</color>   <!-- Medium gray text -->
+    
+    <!-- UI Elements (Light Mode) -->
+    <color name="pal_divider">#E0E0E0</color>          <!-- Light dividers -->
+    <color name="pal_border">#CCCCCC</color>           <!-- Light borders -->
+    <color name="pal_progress_background">#E8F5E8</color>  <!-- Light green background -->
 
-    <!-- Dark Mode Colors -->
+    <!-- Legacy Dark Mode Colors (kept for backwards compatibility) -->
     <color name="pal_background_dark">#121212</color>
     <color name="pal_surface_dark">#1E1E1E</color>
     <color name="pal_text_primary_dark">#FFFFFF</color>

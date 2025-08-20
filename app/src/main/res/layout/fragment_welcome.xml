@@ -13,7 +13,7 @@
         android:layout_marginBottom="32dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_launcher_foreground"
-        app:tint="@color/pal_primary"
+        app:tint="?attr/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/tv_welcome_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -27,7 +27,7 @@
         android:layout_marginBottom="16dp"
         android:text="@string/welcome_title"
         android:gravity="center"
-        android:textColor="@color/pal_text_primary"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/tv_welcome_subtitle"
@@ -42,7 +42,7 @@
         android:layout_marginBottom="48dp"
         android:text="@string/welcome_subtitle"
         android:gravity="center"
-        android:textColor="@color/pal_text_secondary"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="16sp"
         android:lineSpacingExtra="4dp"
         app:layout_constraintBottom_toTopOf="@+id/tv_welcome_features"
@@ -67,10 +67,10 @@
             android:drawablePadding="12dp"
             android:gravity="center_vertical"
             android:text="Track your weight and measurements"
-            android:textColor="@color/pal_text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="16sp"
             app:drawableStartCompat="@drawable/ic_launcher_foreground"
-            app:drawableTint="@color/pal_primary" />
+            app:drawableTint="?attr/colorPrimary" />
 
         <TextView
             android:layout_width="match_parent"
@@ -79,10 +79,10 @@
             android:drawablePadding="12dp"
             android:gravity="center_vertical"
             android:text="Visualize your progress with charts"
-            android:textColor="@color/pal_text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="16sp"
             app:drawableStartCompat="@drawable/ic_launcher_foreground"
-            app:drawableTint="@color/pal_primary" />
+            app:drawableTint="?attr/colorPrimary" />
 
         <TextView
             android:layout_width="match_parent"
@@ -91,10 +91,10 @@
             android:drawablePadding="12dp"
             android:gravity="center_vertical"
             android:text="Privacy-first (all data stays local)"
-            android:textColor="@color/pal_text_primary"
+            android:textColor="?attr/colorOnSurface"
             android:textSize="16sp"
             app:drawableStartCompat="@drawable/ic_launcher_foreground"
-            app:drawableTint="@color/pal_primary" />
+            app:drawableTint="?attr/colorPrimary" />
 
     </LinearLayout>
 

@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pal_background"
+    android:background="?android:attr/colorBackground"
     tools:context=".presentation.onboarding.OnboardingActivity">
 
     <androidx.viewpager2.widget.ViewPager2
@@ -71,33 +71,33 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_back"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Back"
-            android:textColor="@color/pal_text_secondary"
+            android:textColor="?attr/colorOnSurfaceVariant"
             android:visibility="invisible" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_skip"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="@string/skip"
-            android:textColor="@color/pal_text_secondary" />
+            android:textColor="?attr/colorOnSurfaceVariant" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/pal_primary"
+            android:backgroundTint="?attr/colorPrimary"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
             android:text="@string/next"
-            android:textColor="@android:color/white" />
+            android:textColor="?attr/colorOnPrimary" />
 
     </LinearLayout>
 

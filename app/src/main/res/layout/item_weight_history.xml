@@ -33,7 +33,7 @@
                     android:id="@+id/tv_weight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/pal_text_primary"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:text="75.5 kg" />
@@ -59,7 +59,7 @@
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/pal_text_secondary"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textSize="14sp"
                     android:text="Jan 15, 2024" />
 
@@ -68,7 +68,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:textColor="@color/pal_text_secondary"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textSize="14sp"
                     android:text="08:30" />
 
@@ -89,15 +89,15 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_delete"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="Delete"
-            android:textColor="@color/pal_error"
+            android:textColor="?attr/colorError"
             android:textSize="12sp"
             app:icon="@android:drawable/ic_menu_delete"
-            app:iconTint="@color/pal_error" />
+            app:iconTint="?attr/colorError" />
 
     </LinearLayout>
 

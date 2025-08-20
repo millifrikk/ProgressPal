@@ -13,9 +13,9 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@color/pal_primary"
-            app:titleTextColor="@android:color/white"
-            app:navigationIconTint="@android:color/white" />
+            android:background="?attr/colorPrimary"
+            app:titleTextColor="?attr/colorOnPrimary"
+            app:navigationIconTint="?attr/colorOnPrimary" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:text="Record your progress"
-                android:textColor="@color/pal_text_primary"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:hint="@string/weight_hint"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_weight"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:hint="Date"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_date"
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 android:hint="@string/notes_hint"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_notes"
@@ -112,7 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="12dp"
                         android:text="Progress Photo (Optional)"
-                        android:textColor="@color/pal_text_primary"
+                        android:textColor="?attr/colorOnSurface"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -121,7 +121,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:layout_marginBottom="12dp"
-                        android:background="@color/pal_surface"
+                        android:background="?attr/colorSurfaceVariant"
                         android:contentDescription="Progress photo preview"
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_dashboard"
@@ -141,7 +141,7 @@
                             android:layout_weight="1"
                             android:text="Camera"
                             app:icon="@drawable/ic_camera"
-                            app:strokeColor="@color/pal_primary" />
+                            app:strokeColor="?attr/colorPrimary" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_gallery"
@@ -152,7 +152,7 @@
                             android:layout_weight="1"
                             android:text="Gallery"
                             app:icon="@drawable/ic_gallery"
-                            app:strokeColor="@color/pal_primary" />
+                            app:strokeColor="?attr/colorPrimary" />
 
                     </LinearLayout>
 
@@ -164,7 +164,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="8dp"
                         android:text="Remove Photo"
-                        android:textColor="@color/pal_error"
+                        android:textColor="?attr/colorError"
                         android:visibility="gone" />
 
                 </LinearLayout>
@@ -179,24 +179,24 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_cancel"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:text="@string/cancel"
-                    android:textColor="@color/pal_text_secondary" />
+                    android:textColor="?attr/colorOnSurfaceVariant" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_save"
-                    style="@style/Widget.MaterialComponents.Button"
+                    style="@style/Widget.Material3.Button"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/pal_primary"
+                    android:backgroundTint="?attr/colorPrimary"
                     android:text="@string/save"
-                    android:textColor="@android:color/white" />
+                    android:textColor="?attr/colorOnPrimary" />
 
             </LinearLayout>
 

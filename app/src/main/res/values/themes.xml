@@ -20,11 +20,18 @@
         <item name="colorTertiaryContainer">@color/pal_primary_dark</item>
         <item name="colorOnTertiaryContainer">@color/white</item>
         
-        <!-- Surface colors -->
+            <!-- Surface colors (Light Mode) -->
         <item name="colorSurface">@color/pal_surface</item>
         <item name="colorOnSurface">@color/pal_text_primary</item>
-        <item name="colorSurfaceVariant">@color/pal_surface</item>
+        <item name="colorSurfaceVariant">#F3F3F3</item>
         <item name="colorOnSurfaceVariant">@color/pal_text_secondary</item>
+        
+        <!-- Material3 Surface Container System (Light Mode) -->
+        <item name="colorSurfaceContainer">#F3F3F3</item>
+        <item name="colorSurfaceContainerLow">#FCFCFC</item>
+        <item name="colorSurfaceContainerLowest">@color/white</item>
+        <item name="colorSurfaceContainerHigh">#ECECEC</item>
+        <item name="colorSurfaceContainerHighest">#E6E6E6</item>
         
         <!-- Outline colors -->
         <item name="colorOutline">@color/pal_text_secondary</item>
@@ -36,9 +43,18 @@
         <item name="colorErrorContainer">@color/pal_error</item>
         <item name="colorOnErrorContainer">@color/white</item>
         
-        <!-- Background colors -->
-        <item name="android:windowBackground">@color/pal_background</item>
+        <!-- Background colors (Light Mode) -->
+        <item name="android:colorBackground">@color/pal_background</item>
+        <item name="colorOnBackground">@color/pal_text_primary</item>
+        
+        <!-- Status bar (Light Mode) -->
         <item name="android:statusBarColor">@color/pal_primary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowBackground">@color/pal_background</item>
+        
+        <!-- Navigation bar (Light Mode) -->
+        <item name="android:navigationBarColor">@color/pal_background</item>
+        <item name="android:windowLightNavigationBar">true</item>
         
         <!-- Material3 Text Appearances -->
         <item name="textAppearanceBodyLarge">@style/TextAppearance.Material3.BodyLarge</item>
@@ -67,43 +83,43 @@
     <style name="ProgressPal.Headline1">
         <item name="android:textSize">32sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/pal_text_primary</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="ProgressPal.Headline2">
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/pal_text_primary</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="ProgressPal.Body1">
         <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/pal_text_primary</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
     </style>
 
     <style name="ProgressPal.Body2">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/pal_text_secondary</item>
+        <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
     </style>
 
     <style name="ProgressPal.Button">
         <item name="android:textSize">14sp</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:background">@color/pal_primary</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
     </style>
     
     <style name="ProgressPal.Button.Outlined">
         <item name="android:textSize">14sp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:background">@android:color/transparent</item>
-        <item name="android:textColor">@color/pal_primary</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
     </style>
     
     <style name="ProgressPal.Card">
         <item name="cardCornerRadius">8dp</item>
         <item name="cardElevation">2dp</item>
-        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardBackgroundColor">?attr/colorSurface</item>
     </style>
     
     <!-- NoActionBar theme for splash screen -->

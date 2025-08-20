@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:text="Your Progress Statistics"
-                android:textColor="@color/pal_text_primary"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -99,7 +99,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="12dp"
                             android:text="Weight Statistics"
-                            android:textColor="@color/pal_text_primary"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -118,7 +118,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Total Entries"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -126,7 +126,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -142,7 +142,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Average Weight"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -150,7 +150,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0.0 kg"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -174,7 +174,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Total Loss"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -182,7 +182,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0.0 kg"
-                                    android:textColor="@color/pal_success"
+                                    android:textColor="?attr/colorPrimary"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -198,7 +198,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Total Gain"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -206,7 +206,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0.0 kg"
-                                    android:textColor="@color/pal_error"
+                                    android:textColor="?attr/colorError"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -230,7 +230,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Weekly Change"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -238,7 +238,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0.0 kg/week"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -269,7 +269,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="12dp"
                             android:text="Progress Overview"
-                            android:textColor="@color/pal_text_primary"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -288,7 +288,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Start Weight"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -296,7 +296,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0.0 kg"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -312,7 +312,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Current Weight"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -320,7 +320,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0.0 kg"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -336,7 +336,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Days Active"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -344,7 +344,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0 days"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -370,7 +370,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Goal Weight"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -378,7 +378,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0.0 kg"
-                                    android:textColor="@color/pal_primary"
+                                    android:textColor="?attr/colorPrimary"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -394,7 +394,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Progress"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -402,7 +402,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0%"
-                                    android:textColor="@color/pal_primary"
+                                    android:textColor="?attr/colorPrimary"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -428,7 +428,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Est. Days to Goal"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -436,7 +436,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0 days"
-                                    android:textColor="@color/pal_primary"
+                                    android:textColor="?attr/colorPrimary"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -467,7 +467,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="12dp"
                             android:text="Trend Analysis"
-                            android:textColor="@color/pal_text_primary"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -486,7 +486,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Current Trend"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -494,7 +494,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Stable"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -510,7 +510,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Weekly Trend"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -518,7 +518,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Stable"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -534,7 +534,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Monthly Trend"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -542,7 +542,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Stable"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -566,7 +566,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Longest Streak"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -574,7 +574,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0 days"
-                                    android:textColor="@color/pal_primary"
+                                    android:textColor="?attr/colorPrimary"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -590,7 +590,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Current Streak"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -598,7 +598,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0 days"
-                                    android:textColor="@color/pal_primary"
+                                    android:textColor="?attr/colorPrimary"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -629,7 +629,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="12dp"
                             android:text="BMI Analysis"
-                            android:textColor="@color/pal_text_primary"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="18sp"
                             android:textStyle="bold" />
 
@@ -648,7 +648,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Current BMI"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -656,7 +656,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0.0"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -672,7 +672,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Category"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -680,7 +680,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Normal"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -696,7 +696,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="BMI Change"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -704,7 +704,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0.0"
-                                    android:textColor="@color/pal_text_primary"
+                                    android:textColor="?attr/colorOnSurface"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -730,7 +730,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="Target BMI"
-                                    android:textColor="@color/pal_text_secondary"
+                                    android:textColor="?attr/colorOnSurfaceVariant"
                                     android:textSize="12sp" />
 
                                 <TextView
@@ -738,7 +738,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:text="0.0"
-                                    android:textColor="@color/pal_primary"
+                                    android:textColor="?attr/colorPrimary"
                                     android:textSize="16sp"
                                     android:textStyle="bold" />
 
@@ -769,7 +769,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="12dp"
                             android:text="Weight Progress Chart"
-                            android:textColor="@color/pal_text_primary"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -786,7 +786,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="Add more weight entries to see your progress chart"
-                            android:textColor="@color/pal_text_secondary"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="12sp"
                             android:visibility="gone" />
 
@@ -816,7 +816,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="12dp"
                             android:text="BMI Progress Chart"
-                            android:textColor="@color/pal_text_primary"
+                            android:textColor="?attr/colorOnSurface"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
@@ -825,7 +825,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="BMI chart visualization coming soon"
-                            android:textColor="@color/pal_text_secondary"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:textSize="14sp" />
 
                     </LinearLayout>
@@ -839,8 +839,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="100dp"
                     android:text="Export Data"
-                    android:textColor="@android:color/white"
-                    app:backgroundTint="@color/pal_primary" />
+                    android:textColor="?attr/colorOnPrimary"
+                    app:backgroundTint="?attr/colorPrimary" />
 
             </LinearLayout>
 
@@ -866,7 +866,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:text="No Statistics Available"
-                    android:textColor="@color/pal_text_primary"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -875,7 +875,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Start tracking your weight to unlock detailed analytics, progress charts, and personalized insights"
-                    android:textColor="@color/pal_text_secondary"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     android:textSize="14sp" />
 
             </LinearLayout>

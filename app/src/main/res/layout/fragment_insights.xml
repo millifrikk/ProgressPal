@@ -37,7 +37,7 @@
                 android:layout_marginBottom="24dp"
                 android:src="@drawable/ic_dashboard"
                 android:contentDescription="Analytics icon"
-                app:tint="@color/pal_text_secondary"
+                app:tint="?attr/colorOnSurfaceVariant"
                 android:alpha="0.6" />
 
             <TextView
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:text="No Insights Yet"
-                android:textColor="@color/pal_text_primary"
+                android:textColor="?attr/colorOnSurface"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:gravity="center" />
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 android:text="Track your weight for a few days to unlock personalized insights and analytics!"
-                android:textColor="@color/pal_text_secondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="16sp"
                 android:gravity="center"
                 android:lineSpacingExtra="4dp" />
@@ -65,8 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Add Weight Entry"
-                android:backgroundTint="@color/pal_primary"
-                android:textColor="@android:color/white"
+                android:backgroundTint="?attr/colorPrimary"
+                android:textColor="?attr/colorOnPrimary"
                 app:icon="@drawable/ic_dashboard"
                 app:cornerRadius="24dp" />
 
@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:text="Oops!"
-                android:textColor="@color/pal_error"
+                android:textColor="?attr/colorError"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:gravity="center" />
@@ -98,7 +98,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 android:text="Something went wrong loading your insights"
-                android:textColor="@color/pal_text_secondary"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 android:textSize="16sp"
                 android:gravity="center"
                 android:lineSpacingExtra="4dp" />
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Try Again"
-                app:strokeColor="@color/pal_primary" />
+                app:strokeColor="?attr/colorPrimary" />
 
         </LinearLayout>
 

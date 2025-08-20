@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- DARK MODE COLORS -->
+    
+    <!-- Basic colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- Primary Colors (Dark Mode) -->
+    <color name="pal_primary">#81C784</color>          <!-- Lighter green for dark mode -->
+    <color name="pal_primary_dark">#4CAF50</color>     <!-- Keep original green -->
+    <color name="pal_primary_light">#A5D6A7</color>    <!-- Even lighter variant -->
+
+    <!-- Secondary Colors (Dark Mode) -->
+    <color name="pal_secondary">#64B5F6</color>        <!-- Lighter blue for dark mode -->
+    <color name="pal_secondary_dark">#2196F3</color>   <!-- Keep original blue -->
+    <color name="pal_secondary_light">#90CAF9</color>  <!-- Lighter variant -->
+
+    <!-- Accent Colors -->
+    <color name="pal_accent">#FFB74D</color>           <!-- Lighter orange for dark mode -->
+    <color name="pal_success">#A5D6A7</color>          <!-- Lighter green success -->
+    <color name="pal_warning">#FFD54F</color>          <!-- Lighter amber warning -->
+    <color name="pal_error">#EF5350</color>            <!-- Lighter red error -->
+
+    <!-- Surface & Background (Dark Mode) -->
+    <color name="pal_background">#121212</color>       <!-- Material dark background -->
+    <color name="pal_surface">#1E1E1E</color>          <!-- Material dark surface -->
+    
+    <!-- Text Colors (Dark Mode) -->
+    <color name="pal_text_primary">#FFFFFF</color>     <!-- White text -->
+    <color name="pal_text_secondary">#B0B0B0</color>   <!-- Gray text -->
+    
+    <!-- UI Elements (Dark Mode) -->
+    <color name="pal_divider">#3C3C3C</color>          <!-- Dark dividers -->
+    <color name="pal_border">#4A4A4A</color>           <!-- Dark borders -->
+    <color name="pal_progress_background">#1B5E20</color>  <!-- Dark green background -->
+
+    <!-- Dark Mode Specific Colors -->
+    <color name="pal_background_dark">#121212</color>
+    <color name="pal_surface_dark">#1E1E1E</color>
+    <color name="pal_text_primary_dark">#FFFFFF</color>
+    <color name="pal_text_secondary_dark">#B0B0B0</color>
+</resources>
