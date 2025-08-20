@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Complete Dark Mode Support** - Professional dark theme implementation following Material Design 3 guidelines (Session: 2025-08-20-0816)
+  - Automatic light/dark mode switching based on system settings using DayNight theme
+  - Material3 surface container system with 5-level elevation hierarchy for proper depth perception
+  - Comprehensive values-night/ resource qualifiers with optimized dark mode color palette
+  - Adaptive color state selectors for seamless theme transitions
+  - Complete migration documentation in color-theme-update-and-migration.md
 - **GitHub Actions CI/CD Pipeline** - Automated build system for continuous integration (Session: 2025-08-20-0816)
   - Debug and release APK builds on every push to main branch
   - Automated testing and lint checks in build pipeline
@@ -19,6 +25,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Public repository for community contributions and project showcasing
 
 ### Fixed
+- **Critical Dark Mode Visibility Issues** - Resolved invisible UI elements causing user frustration (Session: 2025-08-20-0816)
+  - Fixed calendar date picker text invisible in dark mode by migrating to theme attributes
+  - Corrected "ProgressPal" app bar title invisible on dark backgrounds using proper contrast colors
+  - Eliminated hardcoded color references causing poor visibility across 10+ layout files
+  - All UI components now properly visible and accessible in both light and dark modes
 - **Critical StackOverflowError in Settings Tab** - Eliminated app crash when opening Settings (Session: 2025-08-20-0816)
   - Fixed recursive getContext() call causing infinite loop in SettingsFragment
   - Proper Fragment context handling restored with super.getContext() implementation
@@ -36,6 +47,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Fixed race conditions in LiveData observer setup
 
 ### Changed
+- **Complete Material3 Design System Migration** - Modernized UI framework for enhanced user experience (Session: 2025-08-20-0816)
+  - Migrated from Material2 to Material3 components across all layouts
+  - Updated button styles: MaterialComponents → Material3 variants
+  - Enhanced text input layouts with Material3 OutlinedBox styling
+  - Implemented semantic color roles (?attr/colorOnSurface, ?attr/colorPrimary) for theme consistency
+  - Updated custom theme styles to use Material3 theme attributes instead of hardcoded colors
 - **Mandatory User Registration** - Enhanced onboarding flow to ensure complete profile setup (Session: 2025-08-20-0816)
   - Removed ability to skip onboarding to prevent incomplete user states
   - Hidden skip button throughout registration process for consistent experience
