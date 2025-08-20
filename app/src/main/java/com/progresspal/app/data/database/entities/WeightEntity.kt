@@ -3,11 +3,17 @@ package com.progresspal.app.data.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.Date
 
 @Entity(
     tableName = "weights",
+    indices = [
+        Index(value = ["user_id"]),
+        Index(value = ["date"]),
+        Index(value = ["user_id", "date"])
+    ],
     foreignKeys = [
         ForeignKey(
             entity = UserEntity::class,

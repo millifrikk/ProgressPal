@@ -5,9 +5,11 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.progresspal.app.R
 import com.progresspal.app.MainActivity
 
@@ -97,7 +99,16 @@ object NotificationHelper {
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
         
-        NotificationManagerCompat.from(context).notify(DAILY_REMINDER_ID, notification)
+        // Check POST_NOTIFICATIONS permission for Android 13+ (API 33+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) 
+                == PackageManager.PERMISSION_GRANTED) {
+                NotificationManagerCompat.from(context).notify(DAILY_REMINDER_ID, notification)
+            }
+        } else {
+            // Pre-Android 13, no runtime permission needed
+            NotificationManagerCompat.from(context).notify(DAILY_REMINDER_ID, notification)
+        }
     }
     
     fun showMilestoneAchievement(context: Context, milestoneMessage: String) {
@@ -120,7 +131,16 @@ object NotificationHelper {
             .setStyle(NotificationCompat.BigTextStyle().bigText(milestoneMessage))
             .build()
         
-        NotificationManagerCompat.from(context).notify(MILESTONE_ID, notification)
+        // Check POST_NOTIFICATIONS permission for Android 13+ (API 33+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) 
+                == PackageManager.PERMISSION_GRANTED) {
+                NotificationManagerCompat.from(context).notify(MILESTONE_ID, notification)
+            }
+        } else {
+            // Pre-Android 13, no runtime permission needed
+            NotificationManagerCompat.from(context).notify(MILESTONE_ID, notification)
+        }
     }
     
     fun showWeeklySummary(context: Context, summaryText: String) {
@@ -143,7 +163,16 @@ object NotificationHelper {
             .setStyle(NotificationCompat.BigTextStyle().bigText(summaryText))
             .build()
         
-        NotificationManagerCompat.from(context).notify(WEEKLY_SUMMARY_ID, notification)
+        // Check POST_NOTIFICATIONS permission for Android 13+ (API 33+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) 
+                == PackageManager.PERMISSION_GRANTED) {
+                NotificationManagerCompat.from(context).notify(WEEKLY_SUMMARY_ID, notification)
+            }
+        } else {
+            // Pre-Android 13, no runtime permission needed
+            NotificationManagerCompat.from(context).notify(WEEKLY_SUMMARY_ID, notification)
+        }
     }
     
     fun showGoalAchievement(context: Context, goalMessage: String) {
@@ -167,6 +196,15 @@ object NotificationHelper {
             .setVibrate(longArrayOf(0, 500, 200, 500))
             .build()
         
-        NotificationManagerCompat.from(context).notify(GOAL_ACHIEVEMENT_ID, notification)
+        // Check POST_NOTIFICATIONS permission for Android 13+ (API 33+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) 
+                == PackageManager.PERMISSION_GRANTED) {
+                NotificationManagerCompat.from(context).notify(GOAL_ACHIEVEMENT_ID, notification)
+            }
+        } else {
+            // Pre-Android 13, no runtime permission needed
+            NotificationManagerCompat.from(context).notify(GOAL_ACHIEVEMENT_ID, notification)
+        }
     }
 }
