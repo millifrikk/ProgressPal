@@ -15,7 +15,7 @@
         android:layout_marginBottom="16dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_launcher_foreground"
-        android:tint="@android:color/white"
+        app:tint="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/tv_app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
