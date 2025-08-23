@@ -90,9 +90,11 @@ object BodyCompositionUtils {
         height: Float,
         waist: Float?,
         hip: Float? = null,
+        neck: Float? = null,
         activityLevel: ActivityLevel,
         age: Int? = null,
-        gender: String? = null
+        gender: String? = null,
+        userGender: com.progresspal.app.domain.models.User.Gender = com.progresspal.app.domain.models.User.Gender.OTHER
     ): BodyCompositionAssessment {
         
         val bmi = calculateBMI(weight, height)
@@ -101,16 +103,33 @@ object BodyCompositionUtils {
         val absi = waist?.let { calculateABSI(it, height, weight) }
         val whr = if (waist != null && hip != null) calculateWHR(waist, hip) else null
         
+        // Calculate body fat using Navy Method if measurements available
+        val bodyFatPercentage = if (waist != null && neck != null) {
+            BodyFatCalculator.calculateNavyMethod(
+                gender = userGender,
+                waistCm = waist,
+                neckCm = neck,
+                heightCm = height,
+                hipsCm = hip
+            )
+        } else null
+        
+        val bodyFatCategory = bodyFatPercentage?.let { 
+            BodyFatCalculator.getCategory(it, userGender)
+        }
+        
         return BodyCompositionAssessment(
             bmi = bmi,
             whtr = whtr,
             bri = bri,
             absi = absi,
             whr = whr,
+            bodyFatPercentage = bodyFatPercentage,
+            bodyFatCategory = bodyFatCategory,
             category = determineCategory(bmi, whtr, bri, activityLevel, age),
             healthRisk = calculateHealthRisk(whtr, bri, absi, whr, gender),
-            recommendation = getPersonalizedRecommendation(bmi, whtr, activityLevel, age),
-            primaryMetric = determinePrimaryMetric(whtr, bri, activityLevel)
+            recommendation = getPersonalizedRecommendation(bmi, whtr, bodyFatPercentage, userGender, activityLevel, age),
+            primaryMetric = determinePrimaryMetric(whtr, bri, bodyFatPercentage, activityLevel)
         )
     }
     
@@ -254,9 +273,27 @@ object BodyCompositionUtils {
     private fun getPersonalizedRecommendation(
         bmi: Float,
         whtr: Float?,
+        bodyFatPercentage: Float?,
+        userGender: com.progresspal.app.domain.models.User.Gender,
         activityLevel: ActivityLevel,
         age: Int?
     ): String {
+        
+        // Prioritize body fat percentage if available, then WHtR, then BMI
+        bodyFatPercentage?.let { bodyFat ->
+            val isHealthy = BodyFatCalculator.isHealthyRange(bodyFat, userGender)
+            val category = BodyFatCalculator.getCategory(bodyFat, userGender)
+            
+            return when {
+                category == "Essential Fat" -> "Body fat is very low. Monitor health and consider consulting a professional."
+                category == "Athletes" && isHealthy -> "Excellent athletic body composition. Maintain current training."
+                category == "Fitness" && isHealthy -> "Great body composition! Continue current healthy habits."
+                category == "Average" -> "Good body composition. Consider strength training to improve further."
+                category == "Above Average" -> "Room for improvement. Focus on fat loss while preserving muscle."
+                category == "Obese" -> "High body fat detected. Consider comprehensive lifestyle changes."
+                else -> "Body composition calculated. Track progress with regular measurements."
+            }
+        }
         
         if (whtr != null) {
             return when {
@@ -290,9 +327,11 @@ object BodyCompositionUtils {
     private fun determinePrimaryMetric(
         whtr: Float?,
         bri: Float?,
+        bodyFatPercentage: Float?,
         activityLevel: ActivityLevel
     ): PrimaryMetric {
         return when {
+            bodyFatPercentage != null -> PrimaryMetric.BODY_FAT
             whtr != null -> PrimaryMetric.WHTR
             bri != null && activityLevel.ordinal >= ActivityLevel.ATHLETIC.ordinal -> PrimaryMetric.BRI
             else -> PrimaryMetric.BMI
@@ -375,6 +414,7 @@ enum class HealthRisk(val displayName: String, val colorHex: String) {
  * Primary metric to display
  */
 enum class PrimaryMetric(val displayName: String, val abbreviation: String) {
+    BODY_FAT("Body Fat Percentage", "Body Fat"),
     WHTR("Waist-to-Height Ratio", "WHtR"),
     BRI("Body Roundness Index", "BRI"),
     BMI("Body Mass Index", "BMI")
@@ -389,6 +429,8 @@ data class BodyCompositionAssessment(
     val bri: Float?,
     val absi: Float?,
     val whr: Float?,
+    val bodyFatPercentage: Float? = null,
+    val bodyFatCategory: String? = null,
     val category: BodyCompositionCategory,
     val healthRisk: HealthRisk,
     val recommendation: String,
@@ -396,6 +438,7 @@ data class BodyCompositionAssessment(
 ) {
     fun getPrimaryMetricValue(): Float? {
         return when (primaryMetric) {
+            PrimaryMetric.BODY_FAT -> bodyFatPercentage
             PrimaryMetric.WHTR -> whtr
             PrimaryMetric.BRI -> bri
             PrimaryMetric.BMI -> bmi
@@ -404,6 +447,7 @@ data class BodyCompositionAssessment(
     
     fun getPrimaryMetricDescription(): String {
         return when (primaryMetric) {
+            PrimaryMetric.BODY_FAT -> bodyFatPercentage?.let { "%.1f%%".format(it) } ?: "N/A"
             PrimaryMetric.WHTR -> whtr?.let { "%.2f".format(it) } ?: "N/A"
             PrimaryMetric.BRI -> bri?.let { "%.1f".format(it) } ?: "N/A"
             PrimaryMetric.BMI -> "%.1f".format(bmi)
