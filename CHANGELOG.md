@@ -8,6 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Comprehensive Body Measurements System** - Revolutionary upgrade from simple waist-only to full Navy Method body composition analysis (Session: 2025-08-23-Current)
+  - Complete BodyMeasurementsDialog supporting neck, waist, and hip circumferences with gender-specific measurement fields
+  - Navy Method body fat calculation integration providing accurate body composition analysis for athletic builds
+  - Intelligent measurement system detection with automatic metric/imperial conversion and validation
+  - Enhanced dashboard body composition card with comprehensive multi-measurement support
+  - Database schema evolution v5→v6 adding neck circumference field with seamless migration
+- **Interactive Settings Health Configuration** - Transformed placeholder settings into fully functional health preference controls (Session: 2025-08-23-Current)  
+  - Material Design 3 RadioGroups for measurement system selection (Metric vs Imperial) with instant preference updates
+  - Medical guidelines selection system (US AHA vs EU ESC) for region-appropriate health assessments with persistent storage
+  - Real-time settings synchronization across dashboard and body composition analysis systems
+  - Complete settings UI overhaul replacing non-functional placeholders with working preference controls
 - **Enhanced Session Management System** - Professional development workflow with comprehensive tracking (Session: 2025-08-22-1605)
   - Structured session templates with metadata tracking and git integration
   - Automatic session metrics collection and progress monitoring

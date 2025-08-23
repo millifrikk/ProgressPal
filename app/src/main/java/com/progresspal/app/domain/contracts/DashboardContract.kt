@@ -3,6 +3,7 @@ package com.progresspal.app.domain.contracts
 import com.progresspal.app.data.database.entities.BloodPressureEntity
 import com.progresspal.app.domain.models.User
 import com.progresspal.app.domain.models.Weight
+import com.progresspal.app.presentation.dialogs.BodyMeasurementsDialog
 
 interface DashboardContract {
     interface View : BaseContract.View {
@@ -30,5 +31,6 @@ interface DashboardContract {
         fun onViewBloodPressureHistoryClicked()
         fun onViewBloodPressureTrendsClicked()
         fun onWaistMeasurementAdded(waistCm: Float)
+        fun onBodyMeasurementsAdded(measurements: BodyMeasurementsDialog.BodyMeasurements)
     }
 }

@@ -11,6 +11,7 @@ import com.progresspal.app.data.repository.WeightRepository
 import com.progresspal.app.domain.contracts.DashboardContract
 import com.progresspal.app.domain.models.User
 import com.progresspal.app.domain.models.Weight
+import com.progresspal.app.presentation.dialogs.BodyMeasurementsDialog
 import com.progresspal.app.utils.BMICalculator
 import kotlinx.coroutines.*
 
@@ -178,6 +179,26 @@ class DashboardPresenter(
         }
     }
     
+    override fun onBodyMeasurementsAdded(measurements: BodyMeasurementsDialog.BodyMeasurements) {
+        scope.launch {
+            try {
+                // Update all provided measurements
+                userRepository.updateMultipleBodyMeasurements(
+                    neckCm = measurements.neckCm,
+                    waistCm = measurements.waistCm,
+                    hipCm = measurements.hipCm
+                )
+                
+                // Refresh dashboard to show updated body composition
+                loadDashboardData()
+                
+                view?.showMessage("Body measurements saved successfully")
+            } catch (e: Exception) {
+                view?.showError("Failed to save measurements: ${e.message}")
+            }
+        }
+    }
+    
     private fun calculateProgress(initialWeight: Float, currentWeight: Float, targetWeight: Float): Float {
         val totalChange = kotlin.math.abs(initialWeight - targetWeight)
         val currentChange = kotlin.math.abs(initialWeight - currentWeight)
@@ -208,6 +229,7 @@ class DashboardPresenter(
             targetHips = entity.targetHips,
             trackMeasurements = entity.trackMeasurements,
             birthDate = entity.birthDate,
+            neckCircumference = entity.neckCircumference,
             waistCircumference = entity.waistCircumference,
             hipCircumference = entity.hipCircumference,
             measurementSystem = entity.measurementSystem ?: "METRIC",

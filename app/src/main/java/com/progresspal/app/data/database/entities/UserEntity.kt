@@ -52,6 +52,9 @@ data class UserEntity(
     @ColumnInfo(name = "birth_date")
     val birthDate: Date? = null, // For age calculations
     
+    @ColumnInfo(name = "neck_circumference")
+    val neckCircumference: Float? = null, // Current neck for Navy Method body fat
+    
     @ColumnInfo(name = "waist_circumference")
     val waistCircumference: Float? = null, // Current waist for WHtR and BRI
     

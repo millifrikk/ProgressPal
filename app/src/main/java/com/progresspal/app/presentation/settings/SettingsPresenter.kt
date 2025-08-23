@@ -43,6 +43,7 @@ class SettingsPresenter(
                 trackMeasurements = userEntity.trackMeasurements,
                 // NEW: Health Settings Fields
                 birthDate = userEntity.birthDate,
+                neckCircumference = userEntity.neckCircumference,
                 waistCircumference = userEntity.waistCircumference,
                 hipCircumference = userEntity.hipCircumference,
                 measurementSystem = userEntity.measurementSystem,
@@ -302,6 +303,15 @@ class SettingsPresenter(
         
         // Update birth date display
         view?.updateBirthDateDisplay(user.birthDate)
+    }
+    
+    // Direct change handlers for RadioGroup selections
+    override fun onMeasurementSystemChanged(system: MeasurementSystem) {
+        updateMeasurementSystem(system)
+    }
+    
+    override fun onMedicalGuidelinesChanged(guidelines: MedicalGuidelines) {
+        updateMedicalGuidelines(guidelines)
     }
     
     private fun buildExportData(

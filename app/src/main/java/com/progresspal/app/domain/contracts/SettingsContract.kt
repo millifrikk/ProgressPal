@@ -55,5 +55,9 @@ interface SettingsContract {
         fun updateMedicalGuidelines(guidelines: MedicalGuidelines)
         fun updateActivityLevel(level: ActivityLevel)
         fun updateBirthDate(birthDate: Date?)
+        
+        // Direct change handlers for RadioGroup selections
+        fun onMeasurementSystemChanged(system: MeasurementSystem)
+        fun onMedicalGuidelinesChanged(guidelines: MedicalGuidelines)
     }
 }

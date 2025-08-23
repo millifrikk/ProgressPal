@@ -25,6 +25,7 @@ data class User(
     
     // NEW: Health Settings Fields
     val birthDate: Date? = null, // For age calculations
+    val neckCircumference: Float? = null, // Current neck for Navy Method body fat
     val waistCircumference: Float? = null, // Current waist for WHtR and BRI
     val hipCircumference: Float? = null, // Current hips for WHR
     val measurementSystem: String = "METRIC", // METRIC or IMPERIAL

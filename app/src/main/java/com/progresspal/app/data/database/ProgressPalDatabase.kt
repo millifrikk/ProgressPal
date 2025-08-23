@@ -20,7 +20,7 @@ import com.progresspal.app.data.database.entities.*
         PhotoEntity::class,
         BloodPressureEntity::class
     ],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 @TypeConverters(DateConverters::class)
@@ -133,6 +133,14 @@ abstract class ProgressPalDatabase : RoomDatabase() {
             }
         }
         
+        // Migration from version 5 to 6: Add neck circumference for Navy Method body fat calculation
+        private val MIGRATION_5_6 = object : Migration(5, 6) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Add neck circumference column to users table
+                database.execSQL("ALTER TABLE users ADD COLUMN neck_circumference REAL")
+            }
+        }
+        
         fun getDatabase(context: Context): ProgressPalDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -140,7 +148,7 @@ abstract class ProgressPalDatabase : RoomDatabase() {
                     ProgressPalDatabase::class.java,
                     "progresspal_database"
                 )
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
                 .fallbackToDestructiveMigration()  // For development: clear DB if migration fails
                 .build()
                 INSTANCE = instance

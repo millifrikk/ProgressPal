@@ -389,49 +389,47 @@
                     android:layout_marginVertical="4dp"
                     android:background="@color/pal_divider" />
 
-                <!-- Units -->
+                <!-- Measurement System -->
                 <LinearLayout
-                    android:id="@+id/layout_units"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:padding="12dp">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Units"
-                            android:textColor="@color/pal_text_primary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_units_description"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Metric (kg, cm)"
-                            android:textColor="@color/pal_text_secondary"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
-
                     <TextView
-                        android:id="@+id/tv_current_units"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="Metric"
-                        android:textColor="@color/pal_primary"
-                        android:textSize="14sp" />
+                        android:text="Measurement System"
+                        android:textColor="@color/pal_text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="8dp" />
+
+                    <RadioGroup
+                        android:id="@+id/radio_group_measurement_system"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checkedButton="@+id/radio_metric">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_metric"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Metric (kg, cm, mm Hg)"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingVertical="8dp" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_imperial"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Imperial (lbs, inches, mm Hg)"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingVertical="8dp" />
+
+                    </RadioGroup>
 
                 </LinearLayout>
 
@@ -462,50 +460,75 @@
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <!-- Medical Guidelines -->
+                <!-- Blood Pressure Standards -->
                 <LinearLayout
-                    android:id="@+id/layout_medical_guidelines"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Medical Guidelines"
-                            android:textColor="@color/pal_text_primary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_medical_guidelines_description"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="American Heart Association Guidelines"
-                            android:textColor="@color/pal_text_secondary"
-                            android:textSize="14sp" />
-
-                    </LinearLayout>
+                    android:orientation="vertical"
+                    android:padding="12dp"
+                    android:layout_marginBottom="8dp">
 
                     <TextView
-                        android:id="@+id/tv_current_medical_guidelines"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:text="US (AHA)"
-                        android:textColor="@color/pal_primary"
-                        android:textSize="14sp" />
+                        android:text="Blood Pressure Standards"
+                        android:textColor="@color/pal_text_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Select which medical organization's guidelines to use"
+                        android:textColor="@color/pal_text_secondary"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="12dp" />
+
+                    <RadioGroup
+                        android:id="@+id/radio_group_medical_guidelines"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checkedButton="@+id/radio_us_aha">
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_us_aha"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="US Standards (AHA)"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingVertical="8dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="American Heart Association guidelines"
+                            android:textColor="@color/pal_text_secondary"
+                            android:textSize="12sp"
+                            android:paddingStart="32dp"
+                            android:layout_marginTop="-4dp"
+                            android:layout_marginBottom="8dp" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_eu_esc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="EU Standards (ESC)"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:paddingVertical="8dp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="European Society of Cardiology guidelines"
+                            android:textColor="@color/pal_text_secondary"
+                            android:textSize="12sp"
+                            android:paddingStart="32dp"
+                            android:layout_marginTop="-4dp" />
+
+                    </RadioGroup>
 
                 </LinearLayout>
 

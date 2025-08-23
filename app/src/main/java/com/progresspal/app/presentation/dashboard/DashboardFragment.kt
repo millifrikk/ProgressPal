@@ -14,7 +14,7 @@ import com.progresspal.app.domain.models.Weight
 import com.progresspal.app.MainActivity
 import com.progresspal.app.presentation.bloodpressure.AddBloodPressureActivity
 import com.progresspal.app.presentation.entry.AddEntryActivity
-import com.progresspal.app.presentation.dialogs.WaistMeasurementDialog
+import com.progresspal.app.presentation.dialogs.BodyMeasurementsDialog
 import com.progresspal.app.domain.models.ActivityLevel
 import com.progresspal.app.domain.models.MeasurementSystem
 
@@ -24,6 +24,7 @@ class DashboardFragment : Fragment(), DashboardContract.View {
     private val binding get() = _binding!!
     
     private lateinit var presenter: DashboardContract.Presenter
+    private var currentUser: User? = null
     
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,7 +66,7 @@ class DashboardFragment : Fragment(), DashboardContract.View {
         
         // Set up body composition card click listener
         binding.bodyCompositionCard.setOnAddWaistClickListener {
-            showWaistMeasurementDialog()
+            showBodyMeasurementsDialog()
         }
     }
     
@@ -133,15 +134,28 @@ class DashboardFragment : Fragment(), DashboardContract.View {
         )
     }
     
-    private fun showWaistMeasurementDialog() {
-        // Get user's measurement system preference
-        val measurementSystem = MeasurementSystem.METRIC // TODO: Get from user settings
+    private fun showBodyMeasurementsDialog() {
+        val user = currentUser ?: return
         
-        val dialog = WaistMeasurementDialog.newInstance(measurementSystem)
-        dialog.setOnMeasurementAddedListener { waistCm ->
-            presenter.onWaistMeasurementAdded(waistCm)
+        // Get user's measurement system preference
+        val measurementSystem = when (user.measurementSystem) {
+            "IMPERIAL" -> MeasurementSystem.IMPERIAL
+            else -> MeasurementSystem.METRIC
         }
-        dialog.show(parentFragmentManager, "WaistMeasurementDialog")
+        
+        val dialog = BodyMeasurementsDialog.newInstance(
+            measurementSystem = measurementSystem,
+            userGender = user.gender,
+            currentNeck = user.neckCircumference,
+            currentWaist = user.waistCircumference,
+            currentHip = user.hipCircumference
+        )
+        
+        dialog.setOnMeasurementsAddedListener { measurements ->
+            presenter.onBodyMeasurementsAdded(measurements)
+        }
+        
+        dialog.show(parentFragmentManager, "BodyMeasurementsDialog")
     }
     
     override fun showQuickStats(weightEntries: List<Weight>) {
@@ -203,6 +217,7 @@ class DashboardFragment : Fragment(), DashboardContract.View {
     }
     
     override fun showUser(user: User?) {
+        currentUser = user
         if (user != null && !user.name.isNullOrBlank()) {
             binding.tvGreeting.text = "Hello, ${user.name}!"
         } else {

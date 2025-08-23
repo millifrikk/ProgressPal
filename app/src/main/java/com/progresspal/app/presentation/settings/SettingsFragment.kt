@@ -132,6 +132,26 @@ class SettingsFragment : Fragment(), SettingsContract.View {
                 showMessage("Reminders disabled")
             }
         }
+        
+        // Set up measurement system RadioGroup
+        binding.radioGroupMeasurementSystem.setOnCheckedChangeListener { _, checkedId ->
+            val measurementSystem = when (checkedId) {
+                binding.radioMetric.id -> MeasurementSystem.METRIC
+                binding.radioImperial.id -> MeasurementSystem.IMPERIAL
+                else -> MeasurementSystem.METRIC
+            }
+            presenter.onMeasurementSystemChanged(measurementSystem)
+        }
+        
+        // Set up medical guidelines RadioGroup
+        binding.radioGroupMedicalGuidelines.setOnCheckedChangeListener { _, checkedId ->
+            val medicalGuidelines = when (checkedId) {
+                binding.radioUsAha.id -> MedicalGuidelines.US_AHA
+                binding.radioEuEsc.id -> MedicalGuidelines.EU_ESC
+                else -> MedicalGuidelines.US_AHA
+            }
+            presenter.onMedicalGuidelinesChanged(medicalGuidelines)
+        }
     }
     
     override fun showUser(user: User) {
@@ -145,6 +165,20 @@ class SettingsFragment : Fragment(), SettingsContract.View {
             }
         }
         binding.tvUserDetails.text = details
+        
+        // Set current measurement system selection
+        when (user.measurementSystem) {
+            "METRIC" -> binding.radioMetric.isChecked = true
+            "IMPERIAL" -> binding.radioImperial.isChecked = true
+            else -> binding.radioMetric.isChecked = true
+        }
+        
+        // Set current medical guidelines selection
+        when (user.medicalGuidelines) {
+            "US_AHA" -> binding.radioUsAha.isChecked = true
+            "EU_ESC" -> binding.radioEuEsc.isChecked = true
+            else -> binding.radioUsAha.isChecked = true
+        }
     }
     
     override fun showExportProgress() {

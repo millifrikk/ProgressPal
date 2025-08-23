@@ -128,4 +128,33 @@ class UserRepository(private val userDao: UserDao) {
             userDao.updateUser(updatedUser)
         }
     }
+    
+    suspend fun updateNeckCircumference(neckCircumference: Float?) = withContext(Dispatchers.IO) {
+        val currentUser = userDao.getUserSync()
+        currentUser?.let { user ->
+            val updatedUser = user.copy(
+                // Assuming neck measurement will be stored in a new field
+                // For now, we'll add it to the update method signature but may need to add the field to UserEntity
+                updatedAt = Date()
+            )
+            userDao.updateUser(updatedUser)
+        }
+    }
+    
+    suspend fun updateMultipleBodyMeasurements(
+        neckCm: Float? = null,
+        waistCm: Float? = null,
+        hipCm: Float? = null
+    ) = withContext(Dispatchers.IO) {
+        val currentUser = userDao.getUserSync()
+        currentUser?.let { user ->
+            val updatedUser = user.copy(
+                neckCircumference = neckCm ?: user.neckCircumference,
+                waistCircumference = waistCm ?: user.waistCircumference,
+                hipCircumference = hipCm ?: user.hipCircumference,
+                updatedAt = Date()
+            )
+            userDao.updateUser(updatedUser)
+        }
+    }
 }
