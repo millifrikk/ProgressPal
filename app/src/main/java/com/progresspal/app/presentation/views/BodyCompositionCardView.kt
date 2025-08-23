@@ -14,6 +14,7 @@ import com.progresspal.app.domain.models.MeasurementSystem
 import com.progresspal.app.utils.BMIUtils
 import com.progresspal.app.utils.BodyCompositionUtils
 import com.progresspal.app.utils.BodyCompositionAssessment
+import com.progresspal.app.utils.BodyFatCalculator
 import com.progresspal.app.utils.HealthRisk
 import com.progresspal.app.utils.PrimaryMetric
 import com.progresspal.app.utils.UnitConverter
@@ -56,6 +57,7 @@ class BodyCompositionCardView @JvmOverloads constructor(
         weightKg: Float,
         heightCm: Float,
         waistCm: Float? = null,
+        neckCm: Float? = null,
         hipCm: Float? = null,
         activityLevel: ActivityLevel = ActivityLevel.ACTIVE,
         age: Int? = null,
@@ -67,17 +69,18 @@ class BodyCompositionCardView @JvmOverloads constructor(
             weight = weightKg,
             height = heightCm,
             waist = waistCm,
+            neck = neckCm,
             hip = hipCm,
             activityLevel = activityLevel,
             age = age,
             gender = gender
         )
 
-        // Update last updated status
-        binding.tvLastUpdated.text = if (waistCm != null) {
-            "Based on latest measurements"
-        } else {
-            "Add waist measurement for better accuracy"
+        // Update last updated status with specific measurement availability
+        binding.tvLastUpdated.text = when {
+            neckCm != null && waistCm != null -> "Based on complete body measurements"
+            waistCm != null -> "Add neck measurement for body fat analysis"
+            else -> "Add measurements for enhanced assessment"
         }
 
         // Display overall category (e.g., "Athletic Build" instead of "Overweight")
@@ -87,13 +90,13 @@ class BodyCompositionCardView @JvmOverloads constructor(
         updateHealthRiskChip(assessment.healthRisk)
 
         // Show metrics based on what's available
-        updateMetricsDisplay(assessment, measurementSystem)
+        updateMetricsDisplay(assessment, measurementSystem, gender)
 
         // Show personalized recommendation
         binding.tvRecommendation.text = assessment.recommendation
 
-        // Show/hide waist measurement prompt
-        updateWaistPrompt(weightKg, heightCm, waistCm, activityLevel)
+        // Show/hide body measurement prompt based on what's missing
+        updateMeasurementPrompt(weightKg, heightCm, waistCm, neckCm, activityLevel)
     }
 
     private fun updateHealthRiskChip(healthRisk: HealthRisk) {
@@ -115,16 +118,17 @@ class BodyCompositionCardView @JvmOverloads constructor(
 
     private fun updateMetricsDisplay(
         assessment: BodyCompositionAssessment,
-        measurementSystem: MeasurementSystem
+        measurementSystem: MeasurementSystem,
+        gender: String?
     ) {
         // Primary metric (Body Fat when available, WHtR when available, BMI otherwise)
         when (assessment.primaryMetric) {
             PrimaryMetric.BODY_FAT -> {
                 val bodyFat = assessment.bodyFatPercentage!!
                 val category = assessment.bodyFatCategory ?: "Unknown"
-                binding.tvPrimaryMetric.text = "Body Fat: ${"%.1f".format(bodyFat)}% ($category)"
-                // Determine if healthy based on typical ranges (10-20% for men, 18-28% for women)
-                val isHealthy = bodyFat in 10f..28f // Broad healthy range
+                binding.tvPrimaryMetric.text = "🎯 Navy Method Body Fat: ${"%.1f".format(bodyFat)}% ($category)"
+                // Use proper healthy ranges based on gender
+                val isHealthy = BodyFatCalculator.isHealthyRange(bodyFat, gender)
                 updateMetricStatusIcon(binding.ivPrimaryMetricStatus, isHealthy)
                 binding.layoutPrimaryMetric.visibility = View.VISIBLE
             }
@@ -196,23 +200,28 @@ class BodyCompositionCardView @JvmOverloads constructor(
         imageView.visibility = View.VISIBLE
     }
 
-    private fun updateWaistPrompt(
+    private fun updateMeasurementPrompt(
         weightKg: Float,
         heightCm: Float,
         waistCm: Float?,
+        neckCm: Float?,
         activityLevel: ActivityLevel
     ) {
-        if (waistCm == null && BMIUtils.shouldAddWaistMeasurement(weightKg, heightCm, activityLevel)) {
+        val shouldShowPrompt = (waistCm == null || neckCm == null)
+        
+        if (shouldShowPrompt) {
             binding.cardWaistPrompt.visibility = View.VISIBLE
             binding.btnAddWaist.visibility = View.VISIBLE
             
             val message = when {
-                activityLevel.ordinal >= ActivityLevel.ATHLETIC.ordinal -> 
-                    "Add waist measurement for precise athletic assessment"
-                BMIUtils.calculateBMI(weightKg, heightCm) > 25f -> 
-                    "Add waist measurement for accurate body composition analysis"
+                waistCm == null && neckCm == null -> 
+                    "Add neck & waist measurements for Navy Method body fat percentage"
+                neckCm == null -> 
+                    "Add neck measurement to complete body fat analysis"
+                waistCm == null -> 
+                    "Add waist measurement to complete body fat analysis"
                 else -> 
-                    "Add waist measurement for comprehensive health insights"
+                    "Add comprehensive body measurements for enhanced assessment"
             }
             binding.tvWaistPromptMessage.text = message
         } else {

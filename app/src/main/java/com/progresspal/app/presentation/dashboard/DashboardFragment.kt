@@ -127,6 +127,8 @@ class DashboardFragment : Fragment(), DashboardContract.View {
             weightKg = latestWeight.weight,
             heightCm = user.height,
             waistCm = user.waistCircumference,
+            neckCm = user.neckCircumference,
+            hipCm = user.hipCircumference,
             activityLevel = activityLevel,
             age = age,
             gender = user.gender,

@@ -189,6 +189,17 @@ class DashboardPresenter(
                     hipCm = measurements.hipCm
                 )
                 
+                // Update gender if provided and different from current
+                measurements.gender?.let { selectedGender ->
+                    val currentUser = userRepository.getUser()
+                    currentUser?.let { user ->
+                        if (user.gender != selectedGender) {
+                            val updatedUser = user.copy(gender = selectedGender)
+                            userRepository.updateUser(updatedUser)
+                        }
+                    }
+                }
+                
                 // Refresh dashboard to show updated body composition
                 loadDashboardData()
                 

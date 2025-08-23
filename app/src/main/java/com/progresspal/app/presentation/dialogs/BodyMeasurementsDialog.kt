@@ -26,7 +26,8 @@ class BodyMeasurementsDialog : DialogFragment() {
     data class BodyMeasurements(
         val neckCm: Float?,
         val waistCm: Float?,
-        val hipCm: Float?
+        val hipCm: Float?,
+        val gender: String?
     )
     
     companion object {
@@ -64,9 +65,27 @@ class BodyMeasurementsDialog : DialogFragment() {
     }
     
     private fun setupViews() {
-        // Show hip measurement field for females
-        if (userGender?.uppercase() == "FEMALE" || userGender?.uppercase() == "F") {
-            binding.tilHipValue.visibility = View.VISIBLE
+        // Set up gender radio buttons based on current user gender
+        when (userGender?.uppercase()) {
+            "MALE", "M" -> {
+                binding.radioMale.isChecked = true
+                binding.tilHipValue.visibility = View.GONE
+            }
+            "FEMALE", "F" -> {
+                binding.radioFemale.isChecked = true
+                binding.tilHipValue.visibility = View.VISIBLE
+            }
+            else -> {
+                // No gender set - default to male but allow user to change
+                binding.radioMale.isChecked = true
+                binding.tilHipValue.visibility = View.GONE
+            }
+        }
+        
+        // Listen for gender changes
+        binding.radioGroupGender.setOnCheckedChangeListener { _, checkedId ->
+            updateFieldsForGender(checkedId)
+            updateBenefitsText(checkedId)
         }
         
         binding.btnCancel.setOnClickListener {
@@ -76,6 +95,9 @@ class BodyMeasurementsDialog : DialogFragment() {
         binding.btnSave.setOnClickListener {
             saveMeasurements()
         }
+        
+        // Initialize benefits text
+        updateBenefitsText(binding.radioGroupGender.checkedRadioButtonId)
     }
     
     private fun setupMeasurementSystem() {
@@ -219,7 +241,8 @@ class BodyMeasurementsDialog : DialogFragment() {
             val measurements = BodyMeasurements(
                 neckCm = neckCm,
                 waistCm = waistCm,
-                hipCm = hipCm
+                hipCm = hipCm,
+                gender = getSelectedGender()
             )
             
             onMeasurementsAddedListener?.invoke(measurements)
@@ -227,6 +250,51 @@ class BodyMeasurementsDialog : DialogFragment() {
             
         } catch (e: NumberFormatException) {
             binding.tilNeckValue.error = "Please enter valid numbers"
+        }
+    }
+    
+    private fun updateFieldsForGender(checkedRadioButtonId: Int) {
+        when (checkedRadioButtonId) {
+            binding.radioMale.id -> {
+                binding.tilHipValue.visibility = View.GONE
+                // Clear hip value when switching to male
+                binding.etHipValue.setText("")
+            }
+            binding.radioFemale.id -> {
+                binding.tilHipValue.visibility = View.VISIBLE
+            }
+        }
+    }
+    
+    private fun updateBenefitsText(checkedRadioButtonId: Int) {
+        val benefitsText = when (checkedRadioButtonId) {
+            binding.radioMale.id -> {
+                "• Navy Method body fat: Requires neck + waist measurements\n" +
+                "• Waist-to-Height ratio for health risks\n" +
+                "• More accurate than BMI for athletic builds\n" +
+                "• Track body composition changes over time"
+            }
+            binding.radioFemale.id -> {
+                "• Navy Method body fat: Requires neck + waist + hip measurements\n" +
+                "• Waist-to-Hip ratio analysis for health risks\n" +
+                "• More accurate than BMI for athletic builds\n" +
+                "• Track body composition changes over time"
+            }
+            else -> {
+                "• Navy Method body fat percentage estimation\n" +
+                "• Waist-to-Hip ratio analysis for health risks\n" +
+                "• More accurate than BMI for athletic builds\n" +
+                "• Track body composition changes over time"
+            }
+        }
+        binding.tvEnhancedBenefits.text = benefitsText
+    }
+    
+    private fun getSelectedGender(): String? {
+        return when (binding.radioGroupGender.checkedRadioButtonId) {
+            binding.radioMale.id -> "MALE"
+            binding.radioFemale.id -> "FEMALE"
+            else -> null
         }
     }
     

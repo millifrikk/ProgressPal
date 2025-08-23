@@ -69,7 +69,7 @@
 
             </LinearLayout>
 
-            <!-- Add Waist Button -->
+            <!-- Add Body Measurements Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAddWaist"
                 style="@style/Widget.Material3.Button.IconButton"
@@ -78,9 +78,8 @@
                 app:icon="@drawable/ic_add"
                 app:iconTint="?attr/colorPrimary"
                 app:iconSize="20dp"
-                android:contentDescription="Add waist measurement"
-                android:visibility="gone"
-                tools:visibility="visible" />
+                android:contentDescription="Add body measurements (neck, waist, hip)"
+                android:visibility="visible" />
 
         </LinearLayout>
 
@@ -323,7 +322,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Get More Accurate Assessment"
+                            android:text="Unlock Body Fat Analysis"
                             android:textAppearance="?attr/textAppearanceBodySmall"
                             android:textColor="?attr/colorOnPrimaryContainer"
                             android:textStyle="bold" />
@@ -335,7 +334,7 @@
                             android:textAppearance="?attr/textAppearanceCaption"
                             android:textColor="?attr/colorOnPrimaryContainer"
                             android:layout_marginTop="2dp"
-                            tools:text="Add waist measurement for precise body composition analysis" />
+                            tools:text="Add neck &amp; waist measurements for Navy Method body fat percentage" />
 
                     </LinearLayout>
 
@@ -344,7 +343,7 @@
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Add"
+                        android:text="Add Measurements"
                         android:textColor="?attr/colorPrimary"
                         android:textSize="12sp"
                         android:minWidth="48dp"
