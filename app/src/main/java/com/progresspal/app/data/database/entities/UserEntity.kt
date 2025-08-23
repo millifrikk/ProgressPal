@@ -48,6 +48,25 @@ data class UserEntity(
     @ColumnInfo(name = "track_measurements")
     val trackMeasurements: Boolean = false,
     
+    // NEW: Health Settings Fields for Enhanced Calculations
+    @ColumnInfo(name = "birth_date")
+    val birthDate: Date? = null, // For age calculations
+    
+    @ColumnInfo(name = "waist_circumference")
+    val waistCircumference: Float? = null, // Current waist for WHtR and BRI
+    
+    @ColumnInfo(name = "hip_circumference") 
+    val hipCircumference: Float? = null, // Current hips for WHR
+    
+    @ColumnInfo(name = "measurement_system")
+    val measurementSystem: String = "METRIC", // METRIC or IMPERIAL
+    
+    @ColumnInfo(name = "medical_guidelines")
+    val medicalGuidelines: String = "US_AHA", // US_AHA or EU_ESC
+    
+    @ColumnInfo(name = "preferred_language")
+    val preferredLanguage: String = "en", // For localized health messages
+    
     @ColumnInfo(name = "created_at")
     val createdAt: Date = Date(),
     

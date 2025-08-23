@@ -20,6 +20,9 @@ import com.progresspal.app.data.repository.WeightRepository
 import com.progresspal.app.databinding.FragmentSettingsBinding
 import com.progresspal.app.domain.contracts.SettingsContract
 import com.progresspal.app.domain.models.User
+import com.progresspal.app.domain.models.MeasurementSystem
+import com.progresspal.app.domain.models.MedicalGuidelines
+import com.progresspal.app.domain.models.ActivityLevel
 import com.progresspal.app.presentation.onboarding.OnboardingActivity
 import com.progresspal.app.utils.DataBackupHelper
 import com.progresspal.app.utils.DataImportHelper
@@ -359,6 +362,48 @@ class SettingsFragment : Fragment(), SettingsContract.View {
                 showError("Restore failed: ${e.message}")
             }
         }
+    }
+    
+    // Health Settings Display Methods
+    override fun updateMeasurementSystemDisplay(system: MeasurementSystem) {
+        // Update UI to show current measurement system
+        // This can be implemented when the UI elements are added
+    }
+    
+    override fun updateMedicalGuidelinesDisplay(guidelines: MedicalGuidelines) {
+        // Update UI to show current medical guidelines
+        // This can be implemented when the UI elements are added
+    }
+    
+    override fun updateActivityLevelDisplay(level: ActivityLevel) {
+        // Update UI to show current activity level
+        // This can be implemented when the UI elements are added
+    }
+    
+    override fun updateBirthDateDisplay(birthDate: java.util.Date?) {
+        // Update UI to show current birth date
+        // This can be implemented when the UI elements are added
+    }
+    
+    // Health Settings Selection Dialog Methods
+    override fun showMeasurementSystemDialog(current: MeasurementSystem) {
+        // Show dialog to select measurement system
+        // This can be implemented when needed
+    }
+    
+    override fun showMedicalGuidelinesDialog(current: MedicalGuidelines) {
+        // Show dialog to select medical guidelines
+        // This can be implemented when needed
+    }
+    
+    override fun showActivityLevelDialog(current: ActivityLevel) {
+        // Show dialog to select activity level
+        // This can be implemented when needed
+    }
+    
+    override fun showBirthDatePicker(current: java.util.Date?) {
+        // Show date picker for birth date
+        // This can be implemented when needed
     }
     
     override fun onDestroyView() {

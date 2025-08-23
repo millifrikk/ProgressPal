@@ -10,6 +10,7 @@ import com.progresspal.app.R
 import com.progresspal.app.data.database.ProgressPalDatabase
 import com.progresspal.app.data.repository.UserRepository
 import com.progresspal.app.data.repository.WeightRepository
+import com.progresspal.app.data.repository.BloodPressureRepository
 import com.progresspal.app.databinding.FragmentStatisticsBinding
 import com.progresspal.app.domain.contracts.StatisticsContract
 import com.progresspal.app.domain.models.User
@@ -43,7 +44,8 @@ class StatisticsFragment : Fragment(), StatisticsContract.View {
         val database = ProgressPalDatabase.getDatabase(requireContext())
         val userRepository = UserRepository(database.userDao())
         val weightRepository = WeightRepository(database.weightDao())
-        presenter = StatisticsPresenter(userRepository, weightRepository)
+        val bloodPressureRepository = BloodPressureRepository(database.bloodPressureDao())
+        presenter = StatisticsPresenter(userRepository, weightRepository, bloodPressureRepository)
         presenter.attachView(this)
     }
     
@@ -220,6 +222,45 @@ class StatisticsFragment : Fragment(), StatisticsContract.View {
         binding.bmiChartContainer.visibility = if (data.size >= 2) View.VISIBLE else View.GONE
     }
     
+    override fun showBloodPressureStatistics(
+        totalReadings: Int,
+        averageSystolic: Float,
+        averageDiastolic: Float,
+        averagePulse: Float,
+        trend: String,
+        highReadings: Int,
+        categoryBreakdown: String?
+    ) {
+        // Show the blood pressure statistics card
+        binding.cardBloodPressureStats.visibility = View.VISIBLE
+        
+        // Update UI elements with blood pressure data
+        binding.tvBpTotalReadings.text = totalReadings.toString()
+        binding.tvBpAvgSystolic.text = String.format("%.0f mmHg", averageSystolic)
+        binding.tvBpAvgDiastolic.text = String.format("%.0f mmHg", averageDiastolic)
+        binding.tvBpAvgPulse.text = String.format("%.0f bpm", averagePulse)
+        binding.tvBpTrend.text = trend
+        binding.tvBpHighReadings.text = highReadings.toString()
+        
+        // Set trend color
+        setTrendColor(binding.tvBpTrend, trend)
+        
+        // Show category breakdown if available
+        if (!categoryBreakdown.isNullOrBlank()) {
+            binding.tvBpCategories.text = categoryBreakdown
+            binding.tvBpCategories.visibility = View.VISIBLE
+        } else {
+            binding.tvBpCategories.visibility = View.GONE
+        }
+        
+        // Set high readings color
+        binding.tvBpHighReadings.setTextColor(
+            requireContext().getColor(
+                if (highReadings > 0) R.color.pal_error else R.color.pal_success
+            )
+        )
+    }
+    
     override fun showEmptyState() {
         binding.layoutContent.visibility = View.GONE
         binding.layoutEmptyState.visibility = View.VISIBLE
@@ -227,6 +268,9 @@ class StatisticsFragment : Fragment(), StatisticsContract.View {
         // Hide time range filters and export button when no user data exists
         binding.chipGroupTimeRange.visibility = View.GONE
         binding.btnExportData.visibility = View.GONE
+        
+        // Hide blood pressure card when no data
+        binding.cardBloodPressureStats.visibility = View.GONE
     }
     
     override fun showLoading() {

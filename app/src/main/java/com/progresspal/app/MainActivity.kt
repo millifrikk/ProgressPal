@@ -55,4 +55,12 @@ class MainActivity : AppCompatActivity() {
             .replace(R.id.fragment_container, fragment)
             .commit()
     }
+    
+    /**
+     * Navigate to Statistics tab programmatically
+     * Used by other fragments to switch to statistics view
+     */
+    fun navigateToStatistics() {
+        binding.bottomNavigation.selectedItemId = R.id.nav_statistics
+    }
 }

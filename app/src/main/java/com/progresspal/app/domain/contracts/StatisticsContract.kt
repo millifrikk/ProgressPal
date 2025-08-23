@@ -1,5 +1,6 @@
 package com.progresspal.app.domain.contracts
 
+import com.progresspal.app.data.database.entities.BloodPressureEntity
 import com.progresspal.app.domain.models.User
 import com.progresspal.app.domain.models.Weight
 
@@ -33,6 +34,15 @@ interface StatisticsContract {
             bmiCategory: String,
             bmiChange: Float,
             targetBMI: Float?
+        )
+        fun showBloodPressureStatistics(
+            totalReadings: Int,
+            averageSystolic: Float,
+            averageDiastolic: Float,
+            averagePulse: Float,
+            trend: String,
+            highReadings: Int,
+            categoryBreakdown: String?
         )
         fun showEmptyState()
         fun showWeightChart(data: List<Weight>)

@@ -5,6 +5,7 @@ import com.progresspal.app.data.database.dao.UserDao
 import com.progresspal.app.data.database.entities.UserEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.Date
 
 class UserRepository(private val userDao: UserDao) {
     
@@ -48,5 +49,83 @@ class UserRepository(private val userDao: UserDao) {
     
     suspend fun hasUser(): Boolean = withContext(Dispatchers.IO) {
         userDao.getUserCount() > 0
+    }
+    
+    // Health Settings Update Methods
+    suspend fun updateMeasurementSystem(measurementSystem: String) = withContext(Dispatchers.IO) {
+        val currentUser = userDao.getUserSync()
+        currentUser?.let { user ->
+            val updatedUser = user.copy(
+                measurementSystem = measurementSystem,
+                updatedAt = Date()
+            )
+            userDao.updateUser(updatedUser)
+        }
+    }
+    
+    suspend fun updateMedicalGuidelines(medicalGuidelines: String) = withContext(Dispatchers.IO) {
+        val currentUser = userDao.getUserSync()
+        currentUser?.let { user ->
+            val updatedUser = user.copy(
+                medicalGuidelines = medicalGuidelines,
+                updatedAt = Date()
+            )
+            userDao.updateUser(updatedUser)
+        }
+    }
+    
+    suspend fun updateActivityLevel(activityLevel: String) = withContext(Dispatchers.IO) {
+        val currentUser = userDao.getUserSync()
+        currentUser?.let { user ->
+            val updatedUser = user.copy(
+                activityLevel = activityLevel,
+                updatedAt = Date()
+            )
+            userDao.updateUser(updatedUser)
+        }
+    }
+    
+    suspend fun updateBirthDate(birthDate: Date?) = withContext(Dispatchers.IO) {
+        val currentUser = userDao.getUserSync()
+        currentUser?.let { user ->
+            val updatedUser = user.copy(
+                birthDate = birthDate,
+                updatedAt = Date()
+            )
+            userDao.updateUser(updatedUser)
+        }
+    }
+    
+    suspend fun updateWaistCircumference(waistCircumference: Float?) = withContext(Dispatchers.IO) {
+        val currentUser = userDao.getUserSync()
+        currentUser?.let { user ->
+            val updatedUser = user.copy(
+                waistCircumference = waistCircumference,
+                updatedAt = Date()
+            )
+            userDao.updateUser(updatedUser)
+        }
+    }
+    
+    suspend fun updateHipCircumference(hipCircumference: Float?) = withContext(Dispatchers.IO) {
+        val currentUser = userDao.getUserSync()
+        currentUser?.let { user ->
+            val updatedUser = user.copy(
+                hipCircumference = hipCircumference,
+                updatedAt = Date()
+            )
+            userDao.updateUser(updatedUser)
+        }
+    }
+    
+    suspend fun updatePreferredLanguage(preferredLanguage: String) = withContext(Dispatchers.IO) {
+        val currentUser = userDao.getUserSync()
+        currentUser?.let { user ->
+            val updatedUser = user.copy(
+                preferredLanguage = preferredLanguage,
+                updatedAt = Date()
+            )
+            userDao.updateUser(updatedUser)
+        }
     }
 }

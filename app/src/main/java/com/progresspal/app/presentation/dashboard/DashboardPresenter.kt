@@ -2,8 +2,10 @@ package com.progresspal.app.presentation.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.progresspal.app.data.database.entities.BloodPressureEntity
 import com.progresspal.app.data.database.entities.UserEntity
 import com.progresspal.app.data.database.entities.WeightEntity
+import com.progresspal.app.data.repository.BloodPressureRepository
 import com.progresspal.app.data.repository.UserRepository
 import com.progresspal.app.data.repository.WeightRepository
 import com.progresspal.app.domain.contracts.DashboardContract
@@ -14,7 +16,8 @@ import kotlinx.coroutines.*
 
 class DashboardPresenter(
     private val userRepository: UserRepository,
-    private val weightRepository: WeightRepository
+    private val weightRepository: WeightRepository,
+    private val bloodPressureRepository: BloodPressureRepository
 ) : DashboardContract.Presenter {
     
     private var view: DashboardContract.View? = null
@@ -23,8 +26,10 @@ class DashboardPresenter(
     
     private var userObserver: Observer<UserEntity?>? = null
     private var weightObserver: Observer<List<WeightEntity>>? = null
+    private var bloodPressureObserver: Observer<BloodPressureEntity?>? = null
     private var userLiveData: LiveData<UserEntity?>? = null
     private var weightLiveData: LiveData<List<WeightEntity>>? = null
+    private var bloodPressureLiveData: LiveData<BloodPressureEntity?>? = null
     
     override fun attachView(view: DashboardContract.View) {
         this.view = view
@@ -34,6 +39,7 @@ class DashboardPresenter(
         // Clean up observers
         userLiveData?.removeObserver(userObserver ?: return)
         weightLiveData?.removeObserver(weightObserver ?: return)
+        bloodPressureLiveData?.removeObserver(bloodPressureObserver ?: return)
         
         this.view = null
         job.cancelChildren()
@@ -63,11 +69,20 @@ class DashboardPresenter(
                         val user = mapUserEntityToUser(entity)
                         view?.showUser(user)
                         
-                        // Calculate and show BMI
+                        // Calculate and show BMI (legacy)
                         val currentWeight = entity.currentWeight ?: entity.initialWeight
                         val bmi = BMICalculator.calculate(currentWeight, entity.height)
                         val category = BMICalculator.getCategory(bmi)
                         view?.showBMI(bmi, category)
+                        
+                        // Show enhanced body composition assessment
+                        scope.launch {
+                            val latestWeight = weightRepository.getLatestWeightSync(entity.id)
+                            latestWeight?.let { weightEntity ->
+                                val weight = mapWeightEntityToWeight(weightEntity)
+                                view?.showBodyComposition(user, weight)
+                            }
+                        }
                         
                         // Show current and goal weights
                         view?.showCurrentWeight(currentWeight)
@@ -81,6 +96,9 @@ class DashboardPresenter(
                         
                         // Set up weight history observer
                         setupWeightObserver(entity.id)
+                        
+                        // Set up blood pressure observer
+                        setupBloodPressureObserver(entity.id)
                     }
                 }
                 userLiveData?.observeForever(userObserver!!)
@@ -103,12 +121,61 @@ class DashboardPresenter(
         weightLiveData?.observeForever(weightObserver!!)
     }
     
+    private fun setupBloodPressureObserver(userId: Long) {
+        bloodPressureLiveData = bloodPressureRepository.getLatestForUserLive(userId)
+        bloodPressureObserver = Observer { bloodPressureEntity ->
+            scope.launch {
+                try {
+                    val trend = if (bloodPressureEntity != null) {
+                        bloodPressureRepository.getBloodPressureTrend(userId)
+                    } else null
+                    
+                    view?.showBloodPressureData(bloodPressureEntity, trend)
+                } catch (e: Exception) {
+                    // If trend calculation fails, just show the reading without trend
+                    view?.showBloodPressureData(bloodPressureEntity, null)
+                }
+            }
+        }
+        bloodPressureLiveData?.observeForever(bloodPressureObserver!!)
+    }
+    
     override fun onAddEntryClicked() {
         view?.navigateToAddEntry()
     }
     
     override fun onRefresh() {
         loadDashboardData()
+    }
+    
+    override fun onAddBloodPressureClicked() {
+        view?.navigateToAddBloodPressure()
+    }
+    
+    override fun onViewBloodPressureHistoryClicked() {
+        view?.navigateToBloodPressureHistory()
+    }
+    
+    override fun onViewBloodPressureTrendsClicked() {
+        view?.navigateToBloodPressureTrends()
+    }
+    
+    override fun onWaistMeasurementAdded(waistCm: Float) {
+        scope.launch {
+            try {
+                // Update user's waist circumference
+                val currentUser = userRepository.getUser()
+                currentUser?.let { user ->
+                    val updatedUser = user.copy(waistCircumference = waistCm)
+                    userRepository.updateUser(updatedUser)
+                    
+                    // Refresh dashboard to show updated body composition
+                    loadDashboardData()
+                }
+            } catch (e: Exception) {
+                view?.showError("Failed to save waist measurement: ${e.message}")
+            }
+        }
     }
     
     private fun calculateProgress(initialWeight: Float, currentWeight: Float, targetWeight: Float): Float {
@@ -140,6 +207,11 @@ class DashboardPresenter(
             targetChest = entity.targetChest,
             targetHips = entity.targetHips,
             trackMeasurements = entity.trackMeasurements,
+            birthDate = entity.birthDate,
+            waistCircumference = entity.waistCircumference,
+            hipCircumference = entity.hipCircumference,
+            measurementSystem = entity.measurementSystem ?: "METRIC",
+            medicalGuidelines = entity.medicalGuidelines ?: "US_AHA",
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt
         )

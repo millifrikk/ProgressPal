@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.progresspal.app.data.repository.UserRepository
 import com.progresspal.app.data.repository.WeightRepository
+import com.progresspal.app.data.repository.BloodPressureRepository
 import com.progresspal.app.domain.contracts.StatisticsContract
 import com.progresspal.app.domain.models.Weight
 import com.progresspal.app.utils.BMIUtils
@@ -14,7 +15,8 @@ import kotlin.math.abs
 
 class StatisticsPresenter(
     private val userRepository: UserRepository,
-    private val weightRepository: WeightRepository
+    private val weightRepository: WeightRepository,
+    private val bloodPressureRepository: BloodPressureRepository
 ) : StatisticsContract.Presenter {
     
     private var view: StatisticsContract.View? = null
@@ -23,6 +25,7 @@ class StatisticsPresenter(
     private var weightsLiveData: LiveData<List<com.progresspal.app.data.database.entities.WeightEntity>>? = null
     private var currentTimeRange = "All Time"
     private var allWeights: List<Weight> = emptyList()
+    private var allBloodPressure: List<com.progresspal.app.data.database.entities.BloodPressureEntity> = emptyList()
     
     private val userObserver = Observer<com.progresspal.app.data.database.entities.UserEntity?> { userEntity ->
         if (isViewAttached()) {
@@ -165,6 +168,43 @@ class StatisticsPresenter(
         } else {
             view?.showEmptyState()
         }
+        
+        // Apply the same time range filter to blood pressure data
+        val filteredBloodPressure = when (currentTimeRange) {
+            "Last 7 Days" -> {
+                val cutoffDate = Calendar.getInstance().apply {
+                    add(Calendar.DAY_OF_YEAR, -7)
+                }.time
+                allBloodPressure.filter { java.util.Date(it.timestamp).after(cutoffDate) }
+            }
+            "Last 30 Days" -> {
+                val cutoffDate = Calendar.getInstance().apply {
+                    add(Calendar.DAY_OF_YEAR, -30)
+                }.time
+                allBloodPressure.filter { java.util.Date(it.timestamp).after(cutoffDate) }
+            }
+            "Last 3 Months" -> {
+                val cutoffDate = Calendar.getInstance().apply {
+                    add(Calendar.MONTH, -3)
+                }.time
+                allBloodPressure.filter { java.util.Date(it.timestamp).after(cutoffDate) }
+            }
+            "Last 6 Months" -> {
+                val cutoffDate = Calendar.getInstance().apply {
+                    add(Calendar.MONTH, -6)
+                }.time
+                allBloodPressure.filter { java.util.Date(it.timestamp).after(cutoffDate) }
+            }
+            "Last Year" -> {
+                val cutoffDate = Calendar.getInstance().apply {
+                    add(Calendar.YEAR, -1)
+                }.time
+                allBloodPressure.filter { java.util.Date(it.timestamp).after(cutoffDate) }
+            }
+            else -> allBloodPressure // "All Time"
+        }
+        
+        calculateBloodPressureStatistics(filteredBloodPressure)
     }
     
     private fun loadDetailedStatistics(user: com.progresspal.app.domain.models.User) {
@@ -182,6 +222,9 @@ class StatisticsPresenter(
                         )
                     }.sortedBy { it.date }
                 
+                // Load all blood pressure data for filtering
+                allBloodPressure = bloodPressureRepository.getAllForUserSync(user.id)
+                
                 withContext(Dispatchers.Main) {
                     if (isViewAttached()) {
                         if (weights.isNotEmpty()) {
@@ -190,6 +233,10 @@ class StatisticsPresenter(
                             calculateBMIAnalysis(user, weights)
                             view?.showBMIChart(calculateBMIHistory(user, weights))
                         }
+                        
+                        // Calculate blood pressure statistics based on current time range
+                        calculateBloodPressureStatistics(allBloodPressure)
+                        
                         view?.hideLoading()
                     }
                 }
@@ -356,5 +403,69 @@ class StatisticsPresenter(
         return weights.map { weight ->
             Pair(weight, BMIUtils.calculateBMI(weight.weight, user.height))
         }
+    }
+    
+    private fun calculateBloodPressureStatistics(bloodPressureReadings: List<com.progresspal.app.data.database.entities.BloodPressureEntity>) {
+        if (!isViewAttached()) return
+        
+        if (bloodPressureReadings.isEmpty()) {
+            // Don't show blood pressure section if no data
+            return
+        }
+        
+        val totalReadings = bloodPressureReadings.size
+        val averageSystolic = bloodPressureReadings.map { it.systolic }.average().toFloat()
+        val averageDiastolic = bloodPressureReadings.map { it.diastolic }.average().toFloat()
+        val averagePulse = bloodPressureReadings.map { it.pulse }.average().toFloat()
+        
+        // Calculate trend
+        val trend = if (bloodPressureReadings.size >= 3) {
+            val recent = bloodPressureReadings.take(bloodPressureReadings.size / 3)
+            val older = bloodPressureReadings.drop(bloodPressureReadings.size * 2 / 3)
+            
+            val recentAvgSystolic = recent.map { it.systolic }.average()
+            val olderAvgSystolic = older.map { it.systolic }.average()
+            
+            when {
+                recentAvgSystolic < olderAvgSystolic - 5 -> "Improving"
+                recentAvgSystolic > olderAvgSystolic + 5 -> "Worsening"
+                else -> "Stable"
+            }
+        } else {
+            "Insufficient data"
+        }
+        
+        // Count high readings (Stage 1 hypertension or higher: systolic >= 130 OR diastolic >= 80)
+        val highReadings = bloodPressureReadings.count { reading ->
+            reading.systolic >= 130 || reading.diastolic >= 80
+        }
+        
+        // Calculate category breakdown
+        val categoryBreakdown = calculateCategoryBreakdown(bloodPressureReadings)
+        
+        view?.showBloodPressureStatistics(
+            totalReadings = totalReadings,
+            averageSystolic = averageSystolic,
+            averageDiastolic = averageDiastolic,
+            averagePulse = averagePulse,
+            trend = trend,
+            highReadings = highReadings,
+            categoryBreakdown = categoryBreakdown
+        )
+    }
+    
+    private fun calculateCategoryBreakdown(readings: List<com.progresspal.app.data.database.entities.BloodPressureEntity>): String {
+        if (readings.isEmpty()) return ""
+        
+        val categories = readings.groupBy { it.getCategory().displayName }
+        val total = readings.size
+        
+        return categories.entries
+            .sortedByDescending { it.value.size }
+            .take(3) // Show top 3 categories
+            .joinToString(", ") { (category, list) ->
+                val percentage = (list.size * 100 / total)
+                "$category: $percentage%"
+            }
     }
 }

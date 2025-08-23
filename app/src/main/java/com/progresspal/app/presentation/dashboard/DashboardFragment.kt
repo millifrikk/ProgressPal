@@ -6,11 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.progresspal.app.data.database.entities.BloodPressureEntity
 import com.progresspal.app.databinding.FragmentDashboardBinding
 import com.progresspal.app.domain.contracts.DashboardContract
 import com.progresspal.app.domain.models.User
 import com.progresspal.app.domain.models.Weight
+import com.progresspal.app.MainActivity
+import com.progresspal.app.presentation.bloodpressure.AddBloodPressureActivity
 import com.progresspal.app.presentation.entry.AddEntryActivity
+import com.progresspal.app.presentation.dialogs.WaistMeasurementDialog
+import com.progresspal.app.domain.models.ActivityLevel
+import com.progresspal.app.domain.models.MeasurementSystem
 
 class DashboardFragment : Fragment(), DashboardContract.View {
     
@@ -43,13 +49,32 @@ class DashboardFragment : Fragment(), DashboardContract.View {
         binding.swipeRefresh.setOnRefreshListener {
             presenter.onRefresh()
         }
+        
+        // Set up blood pressure card click listeners
+        binding.bloodPressureCard.setOnAddMeasurementClickListener {
+            presenter.onAddBloodPressureClicked()
+        }
+        
+        binding.bloodPressureCard.setOnViewHistoryClickListener {
+            presenter.onViewBloodPressureHistoryClicked()
+        }
+        
+        binding.bloodPressureCard.setOnViewTrendsClickListener {
+            presenter.onViewBloodPressureTrendsClicked()
+        }
+        
+        // Set up body composition card click listener
+        binding.bodyCompositionCard.setOnAddWaistClickListener {
+            showWaistMeasurementDialog()
+        }
     }
     
     private fun setupPresenter() {
         val database = com.progresspal.app.data.database.ProgressPalDatabase.getDatabase(requireContext())
         val userRepository = com.progresspal.app.data.repository.UserRepository(database.userDao())
         val weightRepository = com.progresspal.app.data.repository.WeightRepository(database.weightDao())
-        presenter = DashboardPresenter(userRepository, weightRepository)
+        val bloodPressureRepository = com.progresspal.app.data.repository.BloodPressureRepository(database.bloodPressureDao())
+        presenter = DashboardPresenter(userRepository, weightRepository, bloodPressureRepository)
         presenter.attachView(this)
     }
     
@@ -72,7 +97,51 @@ class DashboardFragment : Fragment(), DashboardContract.View {
     }
     
     override fun showBMI(bmi: Float, category: String) {
-        binding.tvBmi.text = "${String.format("%.1f", bmi)} ($category)"
+        // Legacy method - now handled by showBodyComposition
+    }
+    
+    override fun showBodyComposition(user: User, latestWeight: Weight) {
+        // Get user settings for personalized assessment
+        val activityLevel = when (user.activityLevel) {
+            "SEDENTARY" -> ActivityLevel.SEDENTARY
+            "ACTIVE" -> ActivityLevel.ACTIVE
+            "ATHLETIC" -> ActivityLevel.ATHLETIC
+            "ENDURANCE_ATHLETE" -> ActivityLevel.ENDURANCE_ATHLETE
+            else -> ActivityLevel.ACTIVE
+        }
+        
+        val measurementSystem = when (user.measurementSystem) {
+            "IMPERIAL" -> MeasurementSystem.IMPERIAL
+            else -> MeasurementSystem.METRIC
+        }
+        
+        // Calculate age from birth date
+        val age = user.birthDate?.let { birthDate ->
+            val ageInMillis = System.currentTimeMillis() - birthDate.time
+            (ageInMillis / (365.25 * 24 * 60 * 60 * 1000)).toInt()
+        }
+        
+        // Update body composition card with comprehensive assessment
+        binding.bodyCompositionCard.updateBodyComposition(
+            weightKg = latestWeight.weight,
+            heightCm = user.height,
+            waistCm = user.waistCircumference,
+            activityLevel = activityLevel,
+            age = age,
+            gender = user.gender,
+            measurementSystem = measurementSystem
+        )
+    }
+    
+    private fun showWaistMeasurementDialog() {
+        // Get user's measurement system preference
+        val measurementSystem = MeasurementSystem.METRIC // TODO: Get from user settings
+        
+        val dialog = WaistMeasurementDialog.newInstance(measurementSystem)
+        dialog.setOnMeasurementAddedListener { waistCm ->
+            presenter.onWaistMeasurementAdded(waistCm)
+        }
+        dialog.show(parentFragmentManager, "WaistMeasurementDialog")
     }
     
     override fun showQuickStats(weightEntries: List<Weight>) {
@@ -107,6 +176,25 @@ class DashboardFragment : Fragment(), DashboardContract.View {
     override fun navigateToAddEntry() {
         val intent = Intent(requireContext(), AddEntryActivity::class.java)
         startActivity(intent)
+    }
+    
+    override fun navigateToAddBloodPressure() {
+        val intent = Intent(requireContext(), AddBloodPressureActivity::class.java)
+        startActivity(intent)
+    }
+    
+    override fun navigateToBloodPressureHistory() {
+        val intent = Intent(requireContext(), com.progresspal.app.presentation.bloodpressure.BloodPressureHistoryActivity::class.java)
+        startActivity(intent)
+    }
+    
+    override fun navigateToBloodPressureTrends() {
+        // Navigate to Statistics tab which contains blood pressure analytics
+        (activity as? MainActivity)?.navigateToStatistics()
+    }
+    
+    override fun showBloodPressureData(reading: BloodPressureEntity?, trend: String?) {
+        binding.bloodPressureCard.updateWithTrend(reading, trend)
     }
     
     override fun showEmptyState() {

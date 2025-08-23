@@ -2,7 +2,11 @@ package com.progresspal.app.domain.contracts
 
 import android.content.Context
 import com.progresspal.app.domain.models.User
+import com.progresspal.app.domain.models.MeasurementSystem
+import com.progresspal.app.domain.models.MedicalGuidelines
+import com.progresspal.app.domain.models.ActivityLevel
 import java.io.File
+import java.util.Date
 
 interface SettingsContract {
     interface View : BaseContract.View {
@@ -16,6 +20,18 @@ interface SettingsContract {
         fun navigateToOnboarding()
         fun showAppInfo(version: String, buildDate: String)
         fun getContext(): Context?
+        
+        // Health Settings Display
+        fun updateMeasurementSystemDisplay(system: MeasurementSystem)
+        fun updateMedicalGuidelinesDisplay(guidelines: MedicalGuidelines)
+        fun updateActivityLevelDisplay(level: ActivityLevel)
+        fun updateBirthDateDisplay(birthDate: Date?)
+        
+        // Health Settings Selection Dialogs
+        fun showMeasurementSystemDialog(current: MeasurementSystem)
+        fun showMedicalGuidelinesDialog(current: MedicalGuidelines)
+        fun showActivityLevelDialog(current: ActivityLevel)
+        fun showBirthDatePicker(current: Date?)
     }
     
     interface Presenter : BaseContract.Presenter<View> {
@@ -27,5 +43,17 @@ interface SettingsContract {
         fun onAboutClicked()
         fun onPrivacyPolicyClicked()
         fun onSupportClicked()
+        
+        // Health Settings Actions
+        fun onMeasurementSystemClicked()
+        fun onMedicalGuidelinesClicked()
+        fun onActivityLevelClicked()
+        fun onBirthDateClicked()
+        
+        // Health Settings Updates
+        fun updateMeasurementSystem(system: MeasurementSystem)
+        fun updateMedicalGuidelines(guidelines: MedicalGuidelines)
+        fun updateActivityLevel(level: ActivityLevel)
+        fun updateBirthDate(birthDate: Date?)
     }
 }

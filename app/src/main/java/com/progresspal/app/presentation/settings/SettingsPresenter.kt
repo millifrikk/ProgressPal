@@ -5,6 +5,9 @@ import com.progresspal.app.data.repository.UserRepository
 import com.progresspal.app.data.repository.WeightRepository
 import com.progresspal.app.domain.contracts.SettingsContract
 import com.progresspal.app.domain.models.User
+import com.progresspal.app.domain.models.MeasurementSystem
+import com.progresspal.app.domain.models.MedicalGuidelines
+import com.progresspal.app.domain.models.ActivityLevel
 import kotlinx.coroutines.*
 import java.io.File
 import java.text.SimpleDateFormat
@@ -31,10 +34,27 @@ class SettingsPresenter(
                 initialWeight = userEntity.initialWeight,
                 currentWeight = userEntity.currentWeight,
                 targetWeight = userEntity.targetWeight,
+                initialWaist = userEntity.initialWaist,
+                initialChest = userEntity.initialChest,
+                initialHips = userEntity.initialHips,
+                targetWaist = userEntity.targetWaist,
+                targetChest = userEntity.targetChest,
+                targetHips = userEntity.targetHips,
+                trackMeasurements = userEntity.trackMeasurements,
+                // NEW: Health Settings Fields
+                birthDate = userEntity.birthDate,
+                waistCircumference = userEntity.waistCircumference,
+                hipCircumference = userEntity.hipCircumference,
+                measurementSystem = userEntity.measurementSystem,
+                medicalGuidelines = userEntity.medicalGuidelines,
+                preferredLanguage = userEntity.preferredLanguage,
                 createdAt = userEntity.createdAt,
                 updatedAt = userEntity.updatedAt
             )
             view?.showUser(user)
+            
+            // Update health settings displays
+            updateHealthSettingsDisplays(user)
         }
     }
     
@@ -136,6 +156,152 @@ class SettingsPresenter(
     
     override fun onSupportClicked() {
         view?.showMessage("Support functionality coming soon")
+    }
+    
+    // Health Settings Actions
+    override fun onMeasurementSystemClicked() {
+        scope.launch {
+            val currentUser = userRepository.getUserSync()
+            if (currentUser != null) {
+                val currentSystem = MeasurementSystem.valueOf(currentUser.measurementSystem)
+                view?.showMeasurementSystemDialog(currentSystem)
+            }
+        }
+    }
+    
+    override fun onMedicalGuidelinesClicked() {
+        scope.launch {
+            val currentUser = userRepository.getUserSync()
+            if (currentUser != null) {
+                val currentGuidelines = MedicalGuidelines.valueOf(currentUser.medicalGuidelines)
+                view?.showMedicalGuidelinesDialog(currentGuidelines)
+            }
+        }
+    }
+    
+    override fun onActivityLevelClicked() {
+        scope.launch {
+            val currentUser = userRepository.getUserSync()
+            if (currentUser != null) {
+                val currentLevel = ActivityLevel.valueOf(currentUser.activityLevel ?: "ACTIVE")
+                view?.showActivityLevelDialog(currentLevel)
+            }
+        }
+    }
+    
+    override fun onBirthDateClicked() {
+        scope.launch {
+            val currentUser = userRepository.getUserSync()
+            view?.showBirthDatePicker(currentUser?.birthDate)
+        }
+    }
+    
+    // Health Settings Updates
+    override fun updateMeasurementSystem(system: MeasurementSystem) {
+        scope.launch(Dispatchers.IO) {
+            try {
+                userRepository.updateMeasurementSystem(system.name)
+                withContext(Dispatchers.Main) {
+                    if (isViewAttached()) {
+                        view?.showMessage("Measurement system updated")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    if (isViewAttached()) {
+                        view?.showError("Failed to update measurement system: ${e.message}")
+                    }
+                }
+            }
+        }
+    }
+    
+    override fun updateMedicalGuidelines(guidelines: MedicalGuidelines) {
+        scope.launch(Dispatchers.IO) {
+            try {
+                userRepository.updateMedicalGuidelines(guidelines.name)
+                withContext(Dispatchers.Main) {
+                    if (isViewAttached()) {
+                        view?.showMessage("Medical guidelines updated")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    if (isViewAttached()) {
+                        view?.showError("Failed to update medical guidelines: ${e.message}")
+                    }
+                }
+            }
+        }
+    }
+    
+    override fun updateActivityLevel(level: ActivityLevel) {
+        scope.launch(Dispatchers.IO) {
+            try {
+                userRepository.updateActivityLevel(level.name)
+                withContext(Dispatchers.Main) {
+                    if (isViewAttached()) {
+                        view?.showMessage("Activity level updated")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    if (isViewAttached()) {
+                        view?.showError("Failed to update activity level: ${e.message}")
+                    }
+                }
+            }
+        }
+    }
+    
+    override fun updateBirthDate(birthDate: Date?) {
+        scope.launch(Dispatchers.IO) {
+            try {
+                userRepository.updateBirthDate(birthDate)
+                withContext(Dispatchers.Main) {
+                    if (isViewAttached()) {
+                        view?.showMessage("Birth date updated")
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    if (isViewAttached()) {
+                        view?.showError("Failed to update birth date: ${e.message}")
+                    }
+                }
+            }
+        }
+    }
+    
+    private fun updateHealthSettingsDisplays(user: User) {
+        if (!isViewAttached()) return
+        
+        // Update measurement system display
+        val measurementSystem = try {
+            MeasurementSystem.valueOf(user.measurementSystem)
+        } catch (e: Exception) {
+            MeasurementSystem.METRIC
+        }
+        view?.updateMeasurementSystemDisplay(measurementSystem)
+        
+        // Update medical guidelines display
+        val medicalGuidelines = try {
+            MedicalGuidelines.valueOf(user.medicalGuidelines)
+        } catch (e: Exception) {
+            MedicalGuidelines.US_AHA
+        }
+        view?.updateMedicalGuidelinesDisplay(medicalGuidelines)
+        
+        // Update activity level display
+        val activityLevel = try {
+            ActivityLevel.valueOf(user.activityLevel ?: "ACTIVE")
+        } catch (e: Exception) {
+            ActivityLevel.ACTIVE
+        }
+        view?.updateActivityLevelDisplay(activityLevel)
+        
+        // Update birth date display
+        view?.updateBirthDateDisplay(user.birthDate)
     }
     
     private fun buildExportData(
