@@ -8,6 +8,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Gender-Aware Body Measurements Dialog** - Intelligent Navy Method body fat calculations with dynamic UI adaptation (Session: 2025-08-23-ui-enhancement-session)
+  - Smart gender selection with Material Design 3 RadioGroup components for accurate Navy Method requirements
+  - Dynamic field visibility showing hip measurements for females, neck+waist for males with automatic field clearing
+  - Real-time benefits text explaining gender-specific Navy Method requirements ("Requires neck + waist measurements" vs "Requires neck + waist + hip measurements")
+  - Integrated gender profile updates allowing users to correct gender settings during measurement entry
+  - Enhanced measurement system display with clear metric/imperial unit indication
+  - Comprehensive form validation with gender-aware measurement range checking
 - **Comprehensive Body Measurements System** - Revolutionary upgrade from simple waist-only to full Navy Method body composition analysis (Session: 2025-08-23-Current)
   - Complete BodyMeasurementsDialog supporting neck, waist, and hip circumferences with gender-specific measurement fields
   - Navy Method body fat calculation integration providing accurate body composition analysis for athletic builds
@@ -59,6 +66,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Public repository for community contributions and project showcasing
 
 ### Fixed
+- **Critical Body Measurements Access Issue** - Resolved Add button invisibility preventing users from accessing body measurements (Session: 2025-08-23-ui-enhancement-session)
+  - Removed problematic BMI range restriction (23-30) that was hiding Add button for many users outside this range
+  - Changed Body Composition card button default visibility from 'gone' to 'visible' for universal reliability
+  - All users can now access Navy Method body fat analysis regardless of their current BMI or activity level
+  - Root cause: Flawed BMIUtils.shouldAddWaistMeasurement() logic created accessibility barrier for athletes and others
+  - Impact: Universal access to body measurements vs. previously limited to specific BMI ranges only
 - **Critical Kotlin Compilation Errors** - Resolved build-blocking compilation failures in dashboard presenter (Session: 2025-08-22-1605)
   - Fixed missing userId parameter in weight repository method call
   - Corrected Weight object construction using proper suspend function and existing mapper utility
