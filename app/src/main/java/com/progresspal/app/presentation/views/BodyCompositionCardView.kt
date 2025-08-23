@@ -117,8 +117,17 @@ class BodyCompositionCardView @JvmOverloads constructor(
         assessment: BodyCompositionAssessment,
         measurementSystem: MeasurementSystem
     ) {
-        // Primary metric (WHtR when available, BMI otherwise)
+        // Primary metric (Body Fat when available, WHtR when available, BMI otherwise)
         when (assessment.primaryMetric) {
+            PrimaryMetric.BODY_FAT -> {
+                val bodyFat = assessment.bodyFatPercentage!!
+                val category = assessment.bodyFatCategory ?: "Unknown"
+                binding.tvPrimaryMetric.text = "Body Fat: ${"%.1f".format(bodyFat)}% ($category)"
+                // Determine if healthy based on typical ranges (10-20% for men, 18-28% for women)
+                val isHealthy = bodyFat in 10f..28f // Broad healthy range
+                updateMetricStatusIcon(binding.ivPrimaryMetricStatus, isHealthy)
+                binding.layoutPrimaryMetric.visibility = View.VISIBLE
+            }
             PrimaryMetric.WHTR -> {
                 val whtr = assessment.whtr!!
                 val status = if (whtr < 0.5f) "✓ Healthy" else "⚠ Elevated"

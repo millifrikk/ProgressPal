@@ -4,6 +4,22 @@ import com.progresspal.app.domain.models.User
 import kotlin.math.log10
 
 /**
+ * Internal gender type for body fat calculations
+ */
+private enum class GenderType { MALE, FEMALE, OTHER }
+
+/**
+ * Parse string gender to internal enum for calculations
+ */
+private fun parseGender(gender: String?): GenderType {
+    return when (gender?.uppercase()) {
+        "MALE", "M" -> GenderType.MALE
+        "FEMALE", "F" -> GenderType.FEMALE
+        else -> GenderType.MALE // Default to male calculations
+    }
+}
+
+/**
  * Utility class for calculating body fat percentage using the U.S. Navy Method
  * 
  * The Navy Method is more accurate than BMI as it accounts for body composition
@@ -20,7 +36,7 @@ object BodyFatCalculator {
     /**
      * Calculate body fat percentage using the U.S. Navy Method
      * 
-     * @param gender User's gender (affects formula used)
+     * @param gender User's gender as String (affects formula used)
      * @param waistCm Waist circumference in centimeters
      * @param neckCm Neck circumference in centimeters  
      * @param heightCm Height in centimeters
@@ -28,14 +44,14 @@ object BodyFatCalculator {
      * @return Body fat percentage as a Float (2-50%)
      */
     fun calculateNavyMethod(
-        gender: User.Gender,
+        gender: String?,
         waistCm: Float,
         neckCm: Float,
         heightCm: Float,
         hipsCm: Float? = null
     ): Float {
-        return when (gender) {
-            User.Gender.MALE -> {
+        return when (parseGender(gender)) {
+            GenderType.MALE -> {
                 // Male formula: 86.010 × log10(waist - neck) - 70.041 × log10(height) + 36.76
                 if (waistCm <= neckCm) return 5f // Prevent invalid measurements
                 
@@ -43,7 +59,7 @@ object BodyFatCalculator {
                            70.041 * log10(heightCm.toDouble()) + 36.76
                 result.toFloat().coerceIn(2f, 50f)
             }
-            User.Gender.FEMALE -> {
+            GenderType.FEMALE -> {
                 // Female formula: 163.205 × log10(waist + hips - neck) - 97.684 × log10(height) - 78.387
                 if (hipsCm == null) return 25f // Default if hips not provided
                 if (waistCm + hipsCm <= neckCm) return 10f // Prevent invalid measurements
@@ -52,7 +68,7 @@ object BodyFatCalculator {
                            97.684 * log10(heightCm.toDouble()) - 78.387
                 result.toFloat().coerceIn(10f, 50f)
             }
-            else -> {
+            GenderType.OTHER -> {
                 // Use male formula as default with adjusted range
                 if (waistCm <= neckCm) return 8f
                 
@@ -68,12 +84,12 @@ object BodyFatCalculator {
      * Uses American Council on Exercise (ACE) standards
      * 
      * @param bodyFatPercentage The calculated body fat percentage
-     * @param gender User's gender
+     * @param gender User's gender as String
      * @return Category name as String
      */
-    fun getCategory(bodyFatPercentage: Float, gender: User.Gender): String {
-        val ranges = when (gender) {
-            User.Gender.MALE -> mapOf(
+    fun getCategory(bodyFatPercentage: Float, gender: String?): String {
+        val ranges = when (parseGender(gender)) {
+            GenderType.MALE -> mapOf(
                 "Essential Fat" to 2f..5f,
                 "Athletes" to 6f..13f,
                 "Fitness" to 14f..17f,
@@ -81,7 +97,7 @@ object BodyFatCalculator {
                 "Above Average" to 25f..29f,
                 "Obese" to 30f..Float.MAX_VALUE
             )
-            User.Gender.FEMALE -> mapOf(
+            GenderType.FEMALE -> mapOf(
                 "Essential Fat" to 10f..13f,
                 "Athletes" to 14f..20f,
                 "Fitness" to 21f..24f,
@@ -89,7 +105,7 @@ object BodyFatCalculator {
                 "Above Average" to 32f..37f,
                 "Obese" to 38f..Float.MAX_VALUE
             )
-            else -> mapOf(
+            GenderType.OTHER -> mapOf(
                 "Very Lean" to 0f..12f,
                 "Lean" to 12f..18f,
                 "Ideal" to 18f..22f,
@@ -106,12 +122,12 @@ object BodyFatCalculator {
      * Get detailed body fat assessment with recommendations
      * 
      * @param bodyFatPercentage The calculated body fat percentage
-     * @param gender User's gender
+     * @param gender User's gender as String
      * @return BodyFatAssessment object with category, description, and recommendations
      */
     fun getDetailedAssessment(
         bodyFatPercentage: Float,
-        gender: User.Gender
+        gender: String?
     ): BodyFatAssessment {
         val category = getCategory(bodyFatPercentage, gender)
         val healthRisk = getHealthRisk(bodyFatPercentage, gender)
@@ -132,14 +148,14 @@ object BodyFatCalculator {
      * Check if body fat percentage is in healthy range
      * 
      * @param bodyFatPercentage The body fat percentage
-     * @param gender User's gender
+     * @param gender User's gender as String
      * @return True if in healthy range, false otherwise
      */
-    fun isHealthyRange(bodyFatPercentage: Float, gender: User.Gender): Boolean {
-        return when (gender) {
-            User.Gender.MALE -> bodyFatPercentage in 10f..20f
-            User.Gender.FEMALE -> bodyFatPercentage in 18f..28f
-            else -> bodyFatPercentage in 14f..24f
+    fun isHealthyRange(bodyFatPercentage: Float, gender: String?): Boolean {
+        return when (parseGender(gender)) {
+            GenderType.MALE -> bodyFatPercentage in 10f..20f
+            GenderType.FEMALE -> bodyFatPercentage in 18f..28f
+            GenderType.OTHER -> bodyFatPercentage in 14f..24f
         }
     }
     
@@ -147,26 +163,26 @@ object BodyFatCalculator {
      * Get health risk level based on body fat percentage
      * 
      * @param bodyFatPercentage The body fat percentage
-     * @param gender User's gender
+     * @param gender User's gender as String
      * @return Health risk level as String
      */
-    private fun getHealthRisk(bodyFatPercentage: Float, gender: User.Gender): String {
-        return when (gender) {
-            User.Gender.MALE -> when {
+    private fun getHealthRisk(bodyFatPercentage: Float, gender: String?): String {
+        return when (parseGender(gender)) {
+            GenderType.MALE -> when {
                 bodyFatPercentage < 5f -> "Health Risk - Too Low"
                 bodyFatPercentage in 5f..20f -> "Low Risk"
                 bodyFatPercentage in 20f..25f -> "Moderate Risk"
                 bodyFatPercentage > 25f -> "High Risk"
                 else -> "Unknown"
             }
-            User.Gender.FEMALE -> when {
+            GenderType.FEMALE -> when {
                 bodyFatPercentage < 12f -> "Health Risk - Too Low"
                 bodyFatPercentage in 12f..28f -> "Low Risk"
                 bodyFatPercentage in 28f..35f -> "Moderate Risk"
                 bodyFatPercentage > 35f -> "High Risk"
                 else -> "Unknown"
             }
-            else -> when {
+            GenderType.OTHER -> when {
                 bodyFatPercentage < 10f -> "Health Risk - Too Low"
                 bodyFatPercentage in 10f..25f -> "Low Risk"
                 bodyFatPercentage in 25f..30f -> "Moderate Risk"
@@ -180,10 +196,10 @@ object BodyFatCalculator {
      * Get recommendations based on body fat category
      * 
      * @param category The body fat category
-     * @param gender User's gender
+     * @param gender User's gender as String
      * @return List of recommendations as Strings
      */
-    private fun getRecommendations(category: String, gender: User.Gender): List<String> {
+    private fun getRecommendations(category: String, gender: String?): List<String> {
         return when (category.lowercase()) {
             "essential fat", "very lean" -> listOf(
                 "Your body fat is very low - monitor your health",
@@ -233,10 +249,10 @@ object BodyFatCalculator {
      * Get detailed description of body fat category
      * 
      * @param category The body fat category
-     * @param gender User's gender
+     * @param gender User's gender as String
      * @return Description string
      */
-    private fun getCategoryDescription(category: String, gender: User.Gender): String {
+    private fun getCategoryDescription(category: String, gender: String?): String {
         return when (category.lowercase()) {
             "essential fat" -> "The minimum fat required for basic physical and physiological health"
             "athletes" -> "Typical of elite athletes in sports requiring low body fat"
@@ -255,14 +271,14 @@ object BodyFatCalculator {
     /**
      * Calculate ideal body fat range for user
      * 
-     * @param gender User's gender
+     * @param gender User's gender as String
      * @return Pair of (minimum, maximum) ideal body fat percentages
      */
-    fun getIdealRange(gender: User.Gender): Pair<Float, Float> {
-        return when (gender) {
-            User.Gender.MALE -> 12f to 18f
-            User.Gender.FEMALE -> 18f to 25f
-            else -> 15f to 22f
+    fun getIdealRange(gender: String?): Pair<Float, Float> {
+        return when (parseGender(gender)) {
+            GenderType.MALE -> 12f to 18f
+            GenderType.FEMALE -> 18f to 25f
+            GenderType.OTHER -> 15f to 22f
         }
     }
     

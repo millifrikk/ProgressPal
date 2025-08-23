@@ -93,8 +93,7 @@ object BodyCompositionUtils {
         neck: Float? = null,
         activityLevel: ActivityLevel,
         age: Int? = null,
-        gender: String? = null,
-        userGender: com.progresspal.app.domain.models.User.Gender = com.progresspal.app.domain.models.User.Gender.OTHER
+        gender: String? = null
     ): BodyCompositionAssessment {
         
         val bmi = calculateBMI(weight, height)
@@ -106,7 +105,7 @@ object BodyCompositionUtils {
         // Calculate body fat using Navy Method if measurements available
         val bodyFatPercentage = if (waist != null && neck != null) {
             BodyFatCalculator.calculateNavyMethod(
-                gender = userGender,
+                gender = gender,
                 waistCm = waist,
                 neckCm = neck,
                 heightCm = height,
@@ -115,7 +114,7 @@ object BodyCompositionUtils {
         } else null
         
         val bodyFatCategory = bodyFatPercentage?.let { 
-            BodyFatCalculator.getCategory(it, userGender)
+            BodyFatCalculator.getCategory(it, gender)
         }
         
         return BodyCompositionAssessment(
@@ -128,7 +127,7 @@ object BodyCompositionUtils {
             bodyFatCategory = bodyFatCategory,
             category = determineCategory(bmi, whtr, bri, activityLevel, age),
             healthRisk = calculateHealthRisk(whtr, bri, absi, whr, gender),
-            recommendation = getPersonalizedRecommendation(bmi, whtr, bodyFatPercentage, userGender, activityLevel, age),
+            recommendation = getPersonalizedRecommendation(bmi, whtr, bodyFatPercentage, gender, activityLevel, age),
             primaryMetric = determinePrimaryMetric(whtr, bri, bodyFatPercentage, activityLevel)
         )
     }
@@ -274,15 +273,15 @@ object BodyCompositionUtils {
         bmi: Float,
         whtr: Float?,
         bodyFatPercentage: Float?,
-        userGender: com.progresspal.app.domain.models.User.Gender,
+        gender: String?,
         activityLevel: ActivityLevel,
         age: Int?
     ): String {
         
         // Prioritize body fat percentage if available, then WHtR, then BMI
         bodyFatPercentage?.let { bodyFat ->
-            val isHealthy = BodyFatCalculator.isHealthyRange(bodyFat, userGender)
-            val category = BodyFatCalculator.getCategory(bodyFat, userGender)
+            val isHealthy = BodyFatCalculator.isHealthyRange(bodyFat, gender)
+            val category = BodyFatCalculator.getCategory(bodyFat, gender)
             
             return when {
                 category == "Essential Fat" -> "Body fat is very low. Monitor health and consider consulting a professional."
