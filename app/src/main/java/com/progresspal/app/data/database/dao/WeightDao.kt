@@ -23,6 +23,9 @@ interface WeightDao {
     @Query("SELECT * FROM weights WHERE user_id = :userId ORDER BY date DESC, created_at DESC")
     suspend fun getAllWeightsSync(userId: Long): List<WeightEntity>
     
+    @Query("SELECT * FROM weights WHERE user_id = :userId ORDER BY date DESC, created_at DESC LIMIT :limit")
+    suspend fun getRecentWeightsSync(userId: Long, limit: Int): List<WeightEntity>
+    
     @Query("SELECT * FROM weights WHERE user_id = :userId AND date BETWEEN :startDate AND :endDate ORDER BY date ASC")
     fun getWeightsInRange(userId: Long, startDate: Date, endDate: Date): LiveData<List<WeightEntity>>
     

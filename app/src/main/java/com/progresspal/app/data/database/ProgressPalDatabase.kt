@@ -20,7 +20,7 @@ import com.progresspal.app.data.database.entities.*
         PhotoEntity::class,
         BloodPressureEntity::class
     ],
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 @TypeConverters(DateConverters::class)
@@ -141,6 +141,24 @@ abstract class ProgressPalDatabase : RoomDatabase() {
             }
         }
         
+        // Migration from version 6 to 7: Add AI enhancement fields to goals table
+        private val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                // Add AI enhancement columns to goals table
+                database.execSQL("ALTER TABLE goals ADD COLUMN ai_suggested INTEGER NOT NULL DEFAULT 0")
+                database.execSQL("ALTER TABLE goals ADD COLUMN ai_reasoning TEXT")
+                database.execSQL("ALTER TABLE goals ADD COLUMN milestones TEXT")
+                database.execSQL("ALTER TABLE goals ADD COLUMN difficulty_score INTEGER")
+                database.execSQL("ALTER TABLE goals ADD COLUMN personalization_factors TEXT")
+                database.execSQL("ALTER TABLE goals ADD COLUMN ai_confidence_score REAL")
+                
+                // Create indexes for AI-related queries
+                database.execSQL("CREATE INDEX IF NOT EXISTS index_goals_ai_suggested ON goals (ai_suggested)")
+                database.execSQL("CREATE INDEX IF NOT EXISTS index_goals_user_id_ai_suggested ON goals (user_id, ai_suggested)")
+                database.execSQL("CREATE INDEX IF NOT EXISTS index_goals_difficulty_score ON goals (difficulty_score)")
+            }
+        }
+        
         fun getDatabase(context: Context): ProgressPalDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
@@ -148,7 +166,7 @@ abstract class ProgressPalDatabase : RoomDatabase() {
                     ProgressPalDatabase::class.java,
                     "progresspal_database"
                 )
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7)
                 .fallbackToDestructiveMigration()  // For development: clear DB if migration fails
                 .build()
                 INSTANCE = instance

@@ -53,5 +53,24 @@ data class GoalEntity(
     val createdAt: Date = Date(),
     
     @ColumnInfo(name = "updated_at")
-    val updatedAt: Date = Date()
+    val updatedAt: Date = Date(),
+    
+    // AI Enhancement Fields
+    @ColumnInfo(name = "ai_suggested")
+    val aiSuggested: Boolean = false,
+    
+    @ColumnInfo(name = "ai_reasoning")
+    val aiReasoning: String? = null,
+    
+    @ColumnInfo(name = "milestones")
+    val milestones: String? = null, // JSON string of milestone objects
+    
+    @ColumnInfo(name = "difficulty_score")
+    val difficultyScore: Int? = null, // 1-10 scale, AI-generated difficulty assessment
+    
+    @ColumnInfo(name = "personalization_factors")
+    val personalizationFactors: String? = null, // JSON string of factors used for personalization
+    
+    @ColumnInfo(name = "ai_confidence_score")
+    val aiConfidenceScore: Float? = null // 0.0-1.0 AI confidence in suggestion quality
 )

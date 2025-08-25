@@ -13,6 +13,9 @@ interface UserDao {
     @Query("SELECT * FROM users LIMIT 1")
     suspend fun getUserSync(): UserEntity?
     
+    @Query("SELECT * FROM users WHERE id = :userId")
+    suspend fun getUserByIdSync(userId: Long): UserEntity?
+    
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertUser(user: UserEntity): Long
     

@@ -39,4 +39,20 @@ interface GoalDao {
     
     @Query("SELECT COUNT(*) FROM goals WHERE user_id = :userId AND achieved = 0")
     suspend fun getActiveGoalCount(userId: Long): Int
+    
+    // AI-specific queries
+    @Query("SELECT * FROM goals WHERE user_id = :userId AND ai_suggested = 1 ORDER BY ai_confidence_score DESC")
+    fun getAiSuggestedGoals(userId: Long): LiveData<List<GoalEntity>>
+    
+    @Query("SELECT * FROM goals WHERE user_id = :userId AND ai_suggested = 1 AND achieved = 0 ORDER BY difficulty_score ASC, ai_confidence_score DESC")
+    fun getActiveAiSuggestedGoals(userId: Long): LiveData<List<GoalEntity>>
+    
+    @Query("SELECT * FROM goals WHERE user_id = :userId AND ai_suggested = 1 AND achieved = 0 AND difficulty_score <= :maxDifficulty ORDER BY ai_confidence_score DESC")
+    suspend fun getAiGoalsByMaxDifficulty(userId: Long, maxDifficulty: Int): List<GoalEntity>
+    
+    @Query("SELECT AVG(difficulty_score) FROM goals WHERE user_id = :userId AND ai_suggested = 1 AND achieved = 1")
+    suspend fun getAverageAchievedGoalDifficulty(userId: Long): Float?
+    
+    @Query("SELECT COUNT(*) FROM goals WHERE user_id = :userId AND ai_suggested = 1 AND achieved = 1")
+    suspend fun getAchievedAiGoalCount(userId: Long): Int
 }
